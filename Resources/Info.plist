@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleName</key>
+	<string>MacBroom</string>
+	<key>CFBundleDisplayName</key>
+	<string>MacBroom</string>
+	<key>CFBundleExecutable</key>
+	<string>MacBroom</string>
+	<key>CFBundleIdentifier</key>
+	<string>dev.local.macbroom</string>
+	<key>CFBundleIconFile</key>
+	<string>AppIcon</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.0</string>
+	<key>CFBundleVersion</key>
+	<string>1</string>
+	<key>LSMinimumSystemVersion</key>
+	<string>13.0</string>
+	<key>NSHighResolutionCapable</key>
+	<true/>
+	<key>NSSupportsAutomaticTermination</key>
+	<true/>
+	<key>NSDesktopFolderUsageDescription</key>
+	<string>MacBroom scans your Desktop to report large and old files. Nothing is removed without your confirmation.</string>
+	<key>NSDocumentsFolderUsageDescription</key>
+	<string>MacBroom scans your Documents to report large and old files. Nothing is removed without your confirmation.</string>
+	<key>NSDownloadsFolderUsageDescription</key>
+	<string>MacBroom scans your Downloads for stale installers and large files. Nothing is removed without your confirmation.</string>
+	<key>NSRemovableVolumesUsageDescription</key>
+	<string>MacBroom can scan external volumes for large files when you choose them.</string>
+</dict>
+</plist>
