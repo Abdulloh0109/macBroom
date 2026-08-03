@@ -71,9 +71,13 @@ struct DiskMapTree {
         var tree = DiskMapTree(root: rootPath)
 
         let keys: [URLResourceKey] = [
+            // volumeIdentifier is fetched per directory below, not prefetched for
+            // every file — that costs a statfs each and halves the walk speed.
             .isDirectoryKey, .isSymbolicLinkKey,
             .totalFileAllocatedSizeKey, .fileAllocatedSizeKey, .fileSizeKey,
         ]
+        let rootVolume = (try? root.resourceValues(forKeys: [.volumeIdentifierKey]))?
+            .volumeIdentifier
         let keySet = Set(keys)
         guard
             let enumerator = FileManager.default.enumerator(
@@ -107,6 +111,14 @@ struct DiskMapTree {
             }
 
             if values.isDirectory == true {
+                // Never walk into a mounted volume: its contents are counted
+                // against that volume, not this one.
+                let childVolume = (try? url.resourceValues(forKeys: [.volumeIdentifierKey]))?
+                    .volumeIdentifier
+                if let rootVolume, let childVolume, !childVolume.isEqual(rootVolume) {
+                    enumerator.skipDescendants()
+                    continue
+                }
                 guard level <= maxDepth else {
                     enumerator.skipDescendants()
                     continue

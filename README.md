@@ -34,8 +34,10 @@ Interfeys **o'zbek, ingliz, rus, turk, nemis, ispan, fransuz va xitoy** tillarid
 
 | Bo'lim                    | Nima qiladi                                                                                           |
 | ------------------------- | ----------------------------------------------------------------------------------------------------- |
+| **Tizim holati** | Protsessor, xotira, batareya, Wi-Fi va ulangan qurilmalar — jonli, har 2 soniyada |
+| **Tizim ma'lumotlari** | Uy papkasidan tashqaridagi gigabaytlar va purgeable joyni tushuntiradi — boshqalar buni sir qoldiradi |
 | **Aqlli tekshiruv**       | Kesh, log, dasturchi chiqindilari, Savat, eski o'rnatuvchi fayllarni topadi va bir bosishda tozalaydi |
-| **Disk xaritasi**         | Papkalarni hajmiga yarasha katak qilib chizadi — joy qayerga ketganini bir qarashda ko'rsatadi        |
+| **Disk xaritasi** | Papkalarni hajmiga yarasha pufak qilib chizadi — joy qayerga ketganini bir qarashda ko'rsatadi |
 | **Katta va eski fayllar** | Istalgan papkani kezib, belgilangan hajmdan katta fayllarni topadi (yashirin papkalar ham)            |
 | **Loyihalar**             | `node_modules`, `build`, `Pods`, `.gradle` — loyiha bo'yicha guruhlab, qanday qaytishini yozib beradi |
 | **O'rnatilgan ilovalar**  | Barcha ilovalar ro'yxati; ilovani `~/Library` dagi qoldiqlari bilan birga o'chiradi                   |
