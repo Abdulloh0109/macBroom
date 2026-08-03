@@ -1,6 +1,7 @@
 import SwiftUI
 
 enum Feature: String, CaseIterable, Identifiable {
+    case system
     case smartScan
     case diskMap
     case largeFiles
@@ -14,6 +15,7 @@ enum Feature: String, CaseIterable, Identifiable {
 
     var title: T {
         switch self {
+        case .system: return S.system
         case .smartScan: return S.smartScan
         case .diskMap: return S.diskMap
         case .largeFiles: return S.largeFiles
@@ -27,6 +29,7 @@ enum Feature: String, CaseIterable, Identifiable {
 
     var symbol: String {
         switch self {
+        case .system: return "gauge.with.dots.needle.67percent"
         case .smartScan: return "sparkles"
         case .diskMap: return "square.grid.3x3.topleft.filled"
         case .largeFiles: return "externaldrive"
@@ -41,6 +44,7 @@ enum Feature: String, CaseIterable, Identifiable {
 
 struct RootView: View {
     @EnvironmentObject private var i18n: I18n
+    @StateObject private var systemModel = SystemModel()
     @StateObject private var scan = SmartScanModel()
     @StateObject private var largeFiles = LargeFilesModel()
     @StateObject private var diskMap = DiskMapModel()
@@ -55,6 +59,7 @@ struct RootView: View {
             sidebar
         } detail: {
             switch selection {
+            case .system: SystemView(model: systemModel)
             case .smartScan: SmartScanView(model: scan)
             case .diskMap: DiskMapView(model: diskMap)
             case .largeFiles: LargeFilesView(model: largeFiles)

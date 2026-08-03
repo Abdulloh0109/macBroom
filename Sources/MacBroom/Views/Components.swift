@@ -64,7 +64,15 @@ struct TriStateCheckbox: View {
         Button(action: action) {
             ZStack {
                 RoundedRectangle(cornerRadius: 4)
-                    .fill(state == .none ? AnyShapeStyle(Color.clear) : AnyShapeStyle(Palette.gradient))
+                    // An unchecked box used to be filled with Color.clear, which
+                    // SwiftUI does not hit-test: only the 1pt border responded to
+                    // clicks, so ticking a box was mostly luck. A near-transparent
+                    // fill is hit-testable and still looks empty.
+                    .fill(
+                        state == .none
+                            ? AnyShapeStyle(Color.primary.opacity(0.06))
+                            : AnyShapeStyle(Palette.gradient)
+                    )
                 RoundedRectangle(cornerRadius: 4)
                     .strokeBorder(Color.secondary.opacity(0.5), lineWidth: 1)
                 if state == .all {
@@ -78,6 +86,9 @@ struct TriStateCheckbox: View {
                 }
             }
             .frame(width: 16, height: 16)
+            // Comfortable target: the box stays 16pt, the clickable area is 24pt.
+            .padding(4)
+            .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
     }
