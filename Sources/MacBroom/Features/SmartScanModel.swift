@@ -214,6 +214,8 @@ final class SmartScanModel: ObservableObject {
                 if !category.items.isEmpty { remaining.append(category) }
             }
 
+            await RemovalHistory.shared.add(source: .smartScan, records: result.records)
+
             self.categories = remaining
             self.lastFreed = result.freed
             self.failures = result.failures

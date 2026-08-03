@@ -11,6 +11,7 @@ enum Feature: String, CaseIterable, Identifiable {
     case hiddenApps
     case processes
     case services
+    case history
 
     var id: String { rawValue }
 
@@ -26,6 +27,7 @@ enum Feature: String, CaseIterable, Identifiable {
         case .hiddenApps: return S.hiddenApps
         case .processes: return S.processes
         case .services: return S.services
+        case .history: return S.history
         }
     }
 
@@ -41,6 +43,7 @@ enum Feature: String, CaseIterable, Identifiable {
         case .hiddenApps: return "eye.slash"
         case .processes: return "bolt.horizontal.circle"
         case .services: return "clock.arrow.circlepath"
+        case .history: return "arrow.uturn.backward.circle"
         }
     }
 }
@@ -56,6 +59,7 @@ struct RootView: View {
     @StateObject private var appsModel = AppsModel()
     @StateObject private var processes = ProcessesModel()
     @StateObject private var services = ServicesModel()
+    @StateObject private var history = HistoryModel()
     @State private var selection: Feature = .smartScan
 
     var body: some View {
@@ -73,6 +77,7 @@ struct RootView: View {
             case .hiddenApps: AppsView(model: appsModel, hidden: true)
             case .processes: ProcessesView(model: processes)
             case .services: ServicesView(model: services)
+            case .history: HistoryView(model: history)
             }
         }
         .navigationTitle("MacBroom")
@@ -114,8 +119,8 @@ struct RootView: View {
                 Spacer()
             }
             .padding(.horizontal, 14)
-            .padding(.top, 14)
-            .padding(.bottom, 10)
+            .padding(.top, 10)
+            .padding(.bottom, 6)
 
             List(Feature.allCases, selection: $selection) { feature in
                 // Two lines: Russian, Spanish and French titles do not fit the
@@ -146,7 +151,7 @@ struct RootView: View {
             .labelsHidden()
             .controlSize(.small)
             .padding(.horizontal, 14)
-            .padding(.bottom, 8)
+            .padding(.bottom, 4)
             .help(i18n.t(S.language))
 
             Button {
@@ -157,7 +162,7 @@ struct RootView: View {
             }
             .buttonStyle(.plain)
             .foregroundStyle(.secondary)
-            .padding(.bottom, 12)
+            .padding(.bottom, 8)
         }
         .navigationSplitViewColumnWidth(min: 200, ideal: 250, max: 330)
     }

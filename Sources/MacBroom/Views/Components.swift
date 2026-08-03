@@ -23,10 +23,10 @@ struct DiskGauge: View {
         VStack(spacing: 10) {
             ZStack {
                 Circle()
-                    .stroke(Color.primary.opacity(0.08), lineWidth: 10)
+                    .stroke(Color.primary.opacity(0.08), lineWidth: 8)
                 Circle()
                     .trim(from: 0, to: max(0.01, disk.usedFraction))
-                    .stroke(Palette.gradient, style: StrokeStyle(lineWidth: 10, lineCap: .round))
+                    .stroke(Palette.gradient, style: StrokeStyle(lineWidth: 8, lineCap: .round))
                     .rotationEffect(.degrees(-90))
                     .animation(.easeOut(duration: 0.6), value: disk.usedFraction)
 
@@ -35,7 +35,7 @@ struct DiskGauge: View {
                         .font(.system(size: 15, weight: .semibold, design: .rounded))
                         .monospacedDigit()
                     Text(i18n.t(S.free))
-                        .font(.system(size: 10))
+                        .font(.system(size: 9))
                         .foregroundStyle(.secondary)
                 }
             }

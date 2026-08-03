@@ -171,6 +171,7 @@ final class ProjectsModel: ObservableObject {
         }
         let result = Cleaner.trash(items)
         failures = result.failures
+        Task { await RemovalHistory.shared.add(source: .projects, records: result.records) }
 
         let removed = Set(selected.map(\.id))
         var remaining: [ProjectGroup] = []

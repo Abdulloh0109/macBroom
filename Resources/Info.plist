@@ -24,6 +24,8 @@
 	<true/>
 	<key>NSSupportsAutomaticTermination</key>
 	<true/>
+	<key>NSAppleEventsUsageDescription</key>
+	<string>MacBroom asks Finder to put an item back from the Trash when macOS does not allow it to move the item itself.</string>
 	<key>NSDesktopFolderUsageDescription</key>
 	<string>MacBroom scans your Desktop to report large and old files. Nothing is removed without your confirmation.</string>
 	<key>NSDocumentsFolderUsageDescription</key>

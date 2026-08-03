@@ -7,6 +7,10 @@ enum CLIRunner {
     static func runIfRequested() {
         let args = CommandLine.arguments
         if args.contains("--selftest") { selfTest() }
+        if args.contains("--undotest") { undoTest() }
+        if args.contains("--historytest") {
+            historyTest(keep: args.contains("keep"), restoreOnly: args.contains("restore"))
+        }
         if let index = args.firstIndex(of: "--map") {
             let target = index + 1 < args.count ? args[index + 1] : NSHomeDirectory()
             mapReport(URL(fileURLWithPath: target))
@@ -160,6 +164,196 @@ enum CLIRunner {
         }
         print("")
         exit(0)
+    }
+
+    /// `MacBroom --historytest [keep]` — checks that removals reach the history
+    /// log and can be restored from it. With `keep`, the entries are left behind
+    /// so the History screen has something real to show.
+    private static func historyTest(keep: Bool, restoreOnly: Bool = false) {
+        let fm = FileManager.default
+        var failures = 0
+
+        func check(_ label: String, _ passed: Bool) {
+            if !passed { failures += 1 }
+            print("  \(passed ? "✓" : "✗ FAIL")  \(label)")
+        }
+
+        /// Bridges the actor into this synchronous entry point.
+        func blocking<Value>(_ operation: @escaping @Sendable () async -> Value) -> Value {
+            let gate = DispatchSemaphore(value: 0)
+            var result: Value?
+            Task {
+                result = await operation()
+                gate.signal()
+            }
+            gate.wait()
+            return result!
+        }
+
+        print("\n  Removal history\n  " + String(repeating: "─", count: 62))
+
+        // Must run before anything is created: otherwise this seeds new scratch
+        // folders and then "restores" those instead of the pending ones.
+        if restoreOnly {
+            var restored = 0
+            for session in blocking({ await RemovalHistory.shared.all() }) {
+                for record in session.records where record.canRestore {
+                    if case .success = blocking({ await RemovalHistory.shared.restore(record) }) {
+                        restored += 1
+                    }
+                }
+            }
+            print("  \(restored) item(s) put back")
+            print("  " + String(repeating: "─", count: 62) + "\n")
+            exit(0)
+        }
+
+        var items: [ScanItem] = []
+        for index in 1...3 {
+            let folder = SafetyGuard.home.appendingPathComponent(
+                "Library/Caches/macbroom-history-test-\(index)",
+                isDirectory: true
+            )
+            try? fm.removeItem(at: folder)
+            try? fm.createDirectory(at: folder, withIntermediateDirectories: true)
+            try? Data(repeating: UInt8(index), count: 40_000 * index)
+                .write(to: folder.appendingPathComponent("payload.bin"))
+            items.append(
+                ScanItem(
+                    url: folder,
+                    displayName: folder.lastPathComponent,
+                    size: SizeCalculator.size(of: folder),
+                    modified: nil,
+                    isSelected: true
+                )
+            )
+        }
+        check("3 scratch folders created", items.count == 3)
+
+        let result = Cleaner.trash(items)
+        check("all three moved to the Trash", result.removed == 3)
+        blocking { await RemovalHistory.shared.add(source: .smartScan, records: result.records) }
+
+        let sessions = blocking { await RemovalHistory.shared.all() }
+        let session = sessions.first { $0.records.contains { $0.displayName.hasPrefix("macbroom-history-test") } }
+        check("a session was written to the log", session != nil)
+        check("it holds all three records", session?.records.count == 3)
+        check("every record reports itself restorable", session?.restorableCount == 3)
+        check("the freed total adds up", session?.freed == result.freed)
+
+        let reloaded = blocking { await RemovalHistory.shared.all() }
+        check("the log survives a reload from disk", !reloaded.isEmpty)
+
+        if keep {
+            print("  " + String(repeating: "─", count: 62))
+            print("  \(session?.records.count ?? 0) entries left in the history for inspection\n")
+            exit(failures == 0 ? 0 : 1)
+        }
+
+        var restoreFailures = 0
+        for record in session?.records ?? [] {
+            if case .failure = blocking({ await RemovalHistory.shared.restore(record) }) {
+                restoreFailures += 1
+            }
+        }
+        check("all three restored without error", restoreFailures == 0)
+        check(
+            "all three are back on disk",
+            (1...3).allSatisfy {
+                fm.fileExists(
+                    atPath: SafetyGuard.home
+                        .appendingPathComponent("Library/Caches/macbroom-history-test-\($0)").path
+                )
+            }
+        )
+
+        // Scoped to this run's own session: asserting on the whole log makes the
+        // test fail whenever an earlier run left records behind.
+        let after = blocking { await RemovalHistory.shared.all() }
+        check(
+            "restored items are dropped from the log",
+            !after.contains { $0.id == session?.id }
+        )
+
+        for index in 1...3 {
+            try? fm.removeItem(
+                at: SafetyGuard.home
+                    .appendingPathComponent("Library/Caches/macbroom-history-test-\(index)")
+            )
+        }
+
+        print("  " + String(repeating: "─", count: 62))
+        print(failures == 0 ? "  History and restore both work\n" : "  \(failures) check(s) FAILED\n")
+        exit(failures == 0 ? 0 : 1)
+    }
+
+    /// `MacBroom --undotest` — a real round trip through Trash and back.
+    ///
+    /// The History screen promises that anything removed can be put back. That is
+    /// only true if `trashItem` really hands over the destination and the move
+    /// back really lands in the original place, so it is checked rather than
+    /// assumed. Nothing outside a scratch folder in ~/Library/Caches is touched.
+    private static func undoTest() {
+        let fm = FileManager.default
+        let folder = SafetyGuard.home
+            .appendingPathComponent("Library/Caches/macbroom-undo-test", isDirectory: true)
+        let file = folder.appendingPathComponent("sample.txt")
+        var failures = 0
+
+        func check(_ label: String, _ passed: Bool) {
+            if !passed { failures += 1 }
+            print("  \(passed ? "✓" : "✗ FAIL")  \(label)")
+        }
+
+        print("\n  Undo round trip\n  " + String(repeating: "─", count: 62))
+
+        try? fm.removeItem(at: folder)
+        try? fm.createDirectory(at: folder, withIntermediateDirectories: true)
+        let payload = Data("macbroom undo test".utf8)
+        try? payload.write(to: file)
+        check("scratch file created at ~/Library/Caches/macbroom-undo-test", fm.fileExists(atPath: file.path))
+
+        let item = ScanItem(
+            url: folder,
+            displayName: "macbroom-undo-test",
+            size: SizeCalculator.size(of: folder),
+            modified: nil,
+            isSelected: true
+        )
+        let result = Cleaner.trash([item])
+        check("moved to the Trash", result.removed == 1 && !fm.fileExists(atPath: folder.path))
+        check("Trash destination was recorded", result.records.first?.trashedPath != nil)
+
+        guard let record = result.records.first else {
+            print("  " + String(repeating: "─", count: 62))
+            print("  cannot continue without a record\n")
+            exit(1)
+        }
+        check("still present in the Trash", fm.fileExists(atPath: record.trashedPath ?? ""))
+        check("reports itself as restorable", record.canRestore)
+
+        // The actor hop has to be waited on: this is a synchronous entry point.
+        let gate = DispatchSemaphore(value: 0)
+        var restoreFailure: String?
+        Task {
+            if case .failure(let error) = await RemovalHistory.shared.restore(record) {
+                restoreFailure = error.message(.en)
+            }
+            gate.signal()
+        }
+        gate.wait()
+
+        check("restore reported success", restoreFailure == nil)
+        check("back at its original path", fm.fileExists(atPath: folder.path))
+        check(
+            "contents survived the round trip",
+            (try? Data(contentsOf: file)) == payload
+        )
+
+        try? fm.removeItem(at: folder)
+        print("  " + String(repeating: "─", count: 62))
+        print(failures == 0 ? "  Undo works end to end\n" : "  \(failures) check(s) FAILED\n")
+        exit(failures == 0 ? 0 : 1)
     }
 
     /// Verifies the guard that stands between MacBroom and your files.

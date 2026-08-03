@@ -14,6 +14,8 @@ enum Cleaner {
         var freed: Int64 = 0
         var removed: Int = 0
         var failures: [Failure] = []
+        /// Where each item ended up, so the History screen can put it back.
+        var records: [RemovalRecord] = []
     }
 
     /// Moves each item to the Trash after re-checking it against `SafetyGuard`.
@@ -25,9 +27,21 @@ enum Cleaner {
             do {
                 try SafetyGuard.assertRemovable(item.url)
                 guard fm.fileExists(atPath: item.url.path) else { continue }
-                try fm.trashItem(at: item.url, resultingItemURL: nil)
+
+                // Capturing where it landed is what makes an undo possible later.
+                var landed: NSURL?
+                try fm.trashItem(at: item.url, resultingItemURL: &landed)
+
                 result.freed += item.size
                 result.removed += 1
+                result.records.append(
+                    RemovalRecord(
+                        displayName: item.displayName,
+                        originalPath: item.url.path,
+                        trashedPath: (landed as URL?)?.path,
+                        size: item.size
+                    )
+                )
             } catch {
                 result.failures.append(
                     Failure(path: item.url.path, reason: error.localizedDescription)

@@ -75,6 +75,7 @@ final class LargeFilesModel: ObservableObject {
         let removed = Set(selected.map(\.id))
         files.removeAll { removed.contains($0.id) && !FileManager.default.fileExists(atPath: $0.url.path) }
         failures = result.failures
+        Task { await RemovalHistory.shared.add(source: .largeFiles, records: result.records) }
     }
 }
 

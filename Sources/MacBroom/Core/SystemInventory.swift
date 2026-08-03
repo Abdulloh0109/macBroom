@@ -500,9 +500,18 @@ enum ServiceInventory {
         let size = SizeCalculator.size(of: service.url)
         do {
             try SafetyGuard.assertRemovable(service.url)
-            try FileManager.default.trashItem(at: service.url, resultingItemURL: nil)
+            var landed: NSURL?
+            try FileManager.default.trashItem(at: service.url, resultingItemURL: &landed)
             result.freed += size
             result.removed += 1
+            result.records.append(
+                RemovalRecord(
+                    displayName: service.label,
+                    originalPath: service.url.path,
+                    trashedPath: (landed as URL?)?.path,
+                    size: size
+                )
+            )
         } catch {
             result.failures.append(
                 Cleaner.Failure(path: service.url.path, reason: error.localizedDescription)

@@ -38,6 +38,7 @@ final class ServicesModel: ObservableObject {
     func disable(_ service: ServiceRecord) {
         let result = ServiceInventory.disable(service)
         failures = result.failures
+        Task { await RemovalHistory.shared.add(source: .services, records: result.records) }
         if result.removed > 0 {
             services.removeAll { $0.id == service.id }
         }
