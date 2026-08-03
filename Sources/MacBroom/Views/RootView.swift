@@ -108,8 +108,12 @@ struct RootView: View {
             .padding(.bottom, 10)
 
             List(Feature.allCases, selection: $selection) { feature in
+                // Two lines: Russian, Spanish and French titles do not fit the
+                // sidebar on one line, and the width is user-set and persisted.
                 Label(i18n.t(feature.title), systemImage: feature.symbol)
                     .font(.system(size: 12))
+                    .lineLimit(2)
+                    .help(i18n.t(feature.title))
                     .tag(feature)
             }
             .listStyle(.sidebar)
@@ -119,15 +123,21 @@ struct RootView: View {
             DiskGauge(disk: scan.disk)
                 .padding(.vertical, 14)
 
-            Picker("", selection: $i18n.language) {
+            // A real pop-up button rather than a custom Menu: the borderless menu
+            // style drops the label text and shows only the indicator.
+            Picker(selection: $i18n.language) {
                 ForEach(Language.allCases) { language in
-                    Text(language.short).tag(language)
+                    Text("\(language.flag)  \(language.title)").tag(language)
                 }
+            } label: {
+                EmptyView()
             }
-            .pickerStyle(.segmented)
+            .pickerStyle(.menu)
             .labelsHidden()
-            .frame(width: 120)
-            .padding(.bottom, 6)
+            .controlSize(.small)
+            .padding(.horizontal, 14)
+            .padding(.bottom, 8)
+            .help(i18n.t(S.language))
 
             Button {
                 scan.refreshDisk()
@@ -139,6 +149,6 @@ struct RootView: View {
             .foregroundStyle(.secondary)
             .padding(.bottom, 12)
         }
-        .navigationSplitViewColumnWidth(min: 185, ideal: 215, max: 250)
+        .navigationSplitViewColumnWidth(min: 200, ideal: 250, max: 330)
     }
 }

@@ -7,7 +7,7 @@ It does the core of what CleanMyMac does, but it is **free**, shows no ads, and
 **never touches the network** — there is no networking code in it at all.
 
 Swift + SwiftUI. Zero third-party dependencies. 3.8 MB.
-The interface is available in **English and Uzbek**, switchable at runtime.
+The interface speaks **Uzbek, English, Russian, Turkish, German, Spanish, French and Chinese**, switchable at runtime.
 
 🇺🇿 [O'zbekcha](README.md) · 📖 [Full manual](document.md) (o'zbekcha)
 
@@ -101,8 +101,9 @@ To get past it:
 
 Once is enough; after that it opens normally.
 
-**Language:** the **UZ / EN** switch sits at the bottom of the sidebar. The whole
-interface changes immediately — no restart.
+**Language:** the picker at the bottom of the sidebar offers eight languages. The whole
+interface changes immediately — no restart. On first launch it follows your system
+language and falls back to Uzbek.
 
 **Permissions:** macOS protects `~/Downloads`, `~/Desktop` and `~/Documents`. The app
 asks the first time it wants to look inside. Decline and those folders are simply
@@ -312,7 +313,7 @@ Read-only. It reports what the GUI would offer and removes nothing:
 ```bash
 MacBroom --scan          # report in the saved language
 MacBroom --scan --en     # force English
-MacBroom --scan --uz     # force Uzbek
+MacBroom --scan --lang ru # uz/en/ru/tr/de/es/fr/zh
 MacBroom --scan --json   # machine readable
 MacBroom --map ~         # disk map as text, largest first
 MacBroom --selftest      # SafetyGuard assertions
@@ -385,10 +386,15 @@ Scripts/       build_app.sh, make_icon.swift
 docs/          screenshots
 ```
 
-Adding a translated string is also one line —
-[`Localization.swift`](Sources/MacBroom/Core/Localization.swift) keeps both languages
-side by side, so a missing translation is a compile error rather than a silent
-fallback to English.
+Strings live in [`Localization.swift`](Sources/MacBroom/Core/Localization.swift), one
+dictionary per phrase covering all eight languages. Completeness is enforced by a script
+rather than the compiler:
+
+```bash
+swift Scripts/check_translations.swift .
+```
+
+It reads the source back and exits non-zero if any phrase is missing a language.
 
 ---
 

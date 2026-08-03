@@ -20,11 +20,11 @@ enum Format {
 
     static func age(_ value: Date?) -> String {
         guard let value else { return "" }
-        let uz = Localized.current == .uz
+        let language = Localized.current
         let days = Int(Date().timeIntervalSince(value) / 86_400)
-        if days < 1 { return uz ? "bugun" : "today" }
-        if days < 30 { return uz ? "\(days) kun oldin" : "\(days)d ago" }
-        if days < 365 { return uz ? "\(days / 30) oy oldin" : "\(days / 30)mo ago" }
-        return uz ? "\(days / 365) yil oldin" : "\(days / 365)y ago"
+        if days < 1 { return S.ageToday(language) }
+        if days < 30 { return S.ageDays(days)(language) }
+        if days < 365 { return S.ageMonths(days / 30)(language) }
+        return S.ageYears(days / 365)(language)
     }
 }
