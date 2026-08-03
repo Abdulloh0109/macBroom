@@ -8,6 +8,7 @@ enum CLIRunner {
         let args = CommandLine.arguments
         if args.contains("--selftest") { selfTest() }
         if args.contains("--undotest") { undoTest() }
+        if args.contains("--growthtest") { growthTest() }
         if args.contains("--historytest") {
             historyTest(keep: args.contains("keep"), restoreOnly: args.contains("restore"))
         }
@@ -164,6 +165,91 @@ enum CLIRunner {
         }
         print("")
         exit(0)
+    }
+
+    /// `MacBroom --growthtest` — writes known amounts and checks the watcher's
+    /// arithmetic. The byte deltas are the whole value of the feature, so they are
+    /// measured against files of known size rather than eyeballed.
+    private static func growthTest() {
+        let fm = FileManager.default
+        let folder = SafetyGuard.home
+            .appendingPathComponent("Library/Caches/macbroom-growth-test", isDirectory: true)
+        let file = folder.appendingPathComponent("big.bin")
+        let megabyte = 1_048_576
+        var failures = 0
+
+        func check(_ label: String, _ passed: Bool, _ detail: String = "") {
+            if !passed { failures += 1 }
+            print("  \(passed ? "✓" : "✗ FAIL")  \(label)\(detail.isEmpty ? "" : "  (\(detail))")")
+        }
+
+        func settle(_ seconds: Double) {
+            Thread.sleep(forTimeInterval: seconds)
+        }
+
+        /// Allocation rounds up, so exact equality would be a flaky assertion.
+        func near(_ actual: Int64, _ expectedMB: Int, tolerance: Int = 3) -> Bool {
+            abs(actual - Int64(expectedMB * megabyte)) < Int64(tolerance * megabyte)
+        }
+
+        print("\n  Growth watcher\n  " + String(repeating: "─", count: 62))
+
+        try? fm.removeItem(at: folder)
+        try? fm.createDirectory(at: folder, withIntermediateDirectories: true)
+
+        let watcher = GrowthWatcher()
+        watcher.start(root: SafetyGuard.home.appendingPathComponent("Library/Caches"))
+        settle(1.5)
+
+        try? Data(repeating: 7, count: 20 * megabyte).write(to: file)
+        settle(2.5)
+        var row = watcher.rows().first { $0.path == folder.path }
+        check(
+            "a 20 MB new file is reported as +20 MB",
+            row.map { near($0.delta, 20) } ?? false,
+            row.map { Format.signedBytes($0.delta) } ?? "no row"
+        )
+
+        try? Data(repeating: 9, count: 40 * megabyte).write(to: file)
+        settle(2.5)
+        row = watcher.rows().first { $0.path == folder.path }
+        check(
+            "growing it to 40 MB is reported as +40 MB",
+            row.map { near($0.delta, 40) } ?? false,
+            row.map { Format.signedBytes($0.delta) } ?? "no row"
+        )
+
+        try? fm.removeItem(at: file)
+        settle(2.5)
+        row = watcher.rows(minimumBytes: 0).first { $0.path == folder.path }
+        check(
+            "deleting it brings the total back to zero",
+            row.map { abs($0.delta) < Int64(3 * megabyte) } ?? true,
+            row.map { Format.signedBytes($0.delta) } ?? "no row"
+        )
+
+        check("the folder was grouped as one row", watcher.rows(minimumBytes: 0).count <= 2)
+
+        // A shrink must read as a shrink. `Format.bytes` clamps negatives to zero,
+        // which silently turned every deletion into "Zero KB" in the UI.
+        check(
+            "a negative delta formats with a sign",
+            Format.signedBytes(-500 * Int64(megabyte)).hasPrefix("−"),
+            Format.signedBytes(-500 * Int64(megabyte))
+        )
+        check(
+            "a positive delta formats with a plus",
+            Format.signedBytes(500 * Int64(megabyte)).hasPrefix("+"),
+            Format.signedBytes(500 * Int64(megabyte))
+        )
+        check("zero formats as zero", Format.signedBytes(0) == "0", Format.signedBytes(0))
+
+        watcher.stop()
+        try? fm.removeItem(at: folder)
+
+        print("  " + String(repeating: "─", count: 62))
+        print(failures == 0 ? "  Byte deltas are correct\n" : "  \(failures) check(s) FAILED\n")
+        exit(failures == 0 ? 0 : 1)
     }
 
     /// `MacBroom --historytest [keep]` — checks that removals reach the history

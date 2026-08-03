@@ -1,6 +1,16 @@
 import Foundation
 
 enum Format {
+    /// Signed byte size, e.g. "+1.2 GB" / "−340 MB".
+    ///
+    /// `bytes(_:)` clamps negatives to zero, which is right for a size and wrong
+    /// for a delta: it turned every shrink in the growth watcher into "Zero KB".
+    static func signedBytes(_ value: Int64) -> String {
+        if value == 0 { return "0" }
+        let sign = value > 0 ? "+" : "−"
+        return sign + bytes(abs(value))
+    }
+
     /// Human readable byte size, e.g. "1.2 GB".
     static func bytes(_ value: Int64) -> String {
         let f = ByteCountFormatter()
