@@ -136,12 +136,13 @@ badge means it might be a backup or something you downloaded on purpose — thos
 
 ![Disk Map](docs/uz-disk-map.png)
 
-Answers "the disk is full, but what is filling it?" Each box's area is proportional
-to the folder's size.
+Answers "the disk is full, but what is filling it?" Each bubble's **area** is
+proportional to the folder's size — twice the bytes, twice the area.
 
-- **Click** a box to go inside
+- **Click** a bubble to go inside, with a spring transition
 - **Up**, or the breadcrumb, to come back
 - **Right-click** to reveal in Finder
+- Hovering lifts and brightens a bubble
 
 A whole home folder (100k+ files) is measured in **~20 seconds**. The tree is built
 in a single pass, so moving between boxes afterwards is instant.

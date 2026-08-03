@@ -142,12 +142,14 @@ Bo'lim yonidagi `>` ni bosib ichida aynan nima borligini ko'rasiz.
 
 ![Disk xaritasi](docs/uz-disk-map.png)
 
-"Disk to'ldi, lekin nima band qilyapti?" — shunga javob beradi. Har bir katakning
-maydoni papkaning hajmiga to'g'ri proporsional.
+"Disk to'ldi, lekin nima band qilyapti?" — shunga javob beradi. Har bir pufakning
+**yuzasi** papkaning hajmiga to'g'ri proporsional: ikki barobar katta papka ikki
+barobar katta yuza egallaydi.
 
-- Katakni **bosing** — ichiga kirasiz
+- Pufakni **bosing** — ichiga kirasiz, animatsiya bilan
 - **Yuqoriga** tugmasi yoki tepadagi yo'l orqali qaytasiz
 - **O'ng tugma** — Finder'da ochadi
+- Ustiga borsangiz pufak kattalashib, yorishadi
 
 Butun uy papkasi (100 mingdan ortiq fayl) **~20 soniyada** o'lchanadi. Bitta o'tishda
 butun daraxt tuziladi, shuning uchun keyin katakdan katakka kirish bir zumda bo'ladi.

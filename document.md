@@ -140,12 +140,15 @@ Joy haqiqatan bo'shashi uchun keyin Savatni tozalashingiz kerak.
 
 ![Disk xaritasi](docs/uz-disk-map.png)
 
-"162 GB band, lekin qayerga ketgan?" degan savolga ro'yxat emas, rasm bilan javob beradi.
-Har bir katakning maydoni papkaning hajmiga to'g'ri proporsional.
+"Disk band, lekin qayerga ketgan?" degan savolga ro'yxat emas, rasm bilan javob beradi.
+Har bir pufakning **yuzasi** papkaning hajmiga to'g'ri proporsional — ikki barobar
+katta papka ikki barobar katta yuza egallaydi (eni emas, yuzasi).
 
-- Katakni **bosing** — ichiga kirasiz.
+- Pufakni **bosing** — ichiga kirasiz, o'tish animatsiya bilan bo'ladi.
 - **Yuqoriga** tugmasi yoki tepadagi yo'lni bosib orqaga qaytasiz.
-- Katakni **o'ng tugma** bilan bossangiz Finder'da ochiladi.
+- Pufakni **o'ng tugma** bilan bossangiz Finder'da ochiladi.
+- Sichqonchani olib borsangiz pufak biroz kattalashib, yorishadi.
+- Juda mayda papkalar bitta kulrang pufakka yig'iladi, aks holda ekran nuqtalarga to'lib ketardi.
 
 Yuqoridagi rasm shu Mac'niki: `Library` 44,89 GB (52%), `.android` 22,42 GB (26%),
 `Progects` 12,18 GB (14%). Ya'ni uy papkasining chorak qismini Android emulyatorlari
