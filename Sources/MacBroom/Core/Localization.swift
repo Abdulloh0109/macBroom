@@ -1474,4 +1474,175 @@ enum S {
             .fr: "\(h) h \(m) min restantes", .zh: "剩余 \(h) 小时 \(m) 分",
         ])
     }
+
+    // System data (outside the home folder)
+    static let systemData = T([
+        .en: "System Data", .uz: "Tizim ma'lumotlari", .ru: "Системные данные",
+        .tr: "Sistem Verileri", .de: "Systemdaten", .es: "Datos del sistema",
+        .fr: "Données système", .zh: "系统数据",
+    ])
+    static let systemDataIntro = T([
+        .en: "The gigabytes that live outside your home folder — the part other cleaners leave as a mystery.",
+        .uz: "Uy papkangizdan tashqarida yotgan gigabaytlar — boshqa tozalagichlar buni sir qilib qoldiradi.",
+        .ru: "Гигабайты за пределами домашней папки — то, что другие чистильщики оставляют загадкой.",
+        .tr: "Ana klasörünüzün dışında duran gigabaytlar — diğer temizleyicilerin sır olarak bıraktığı kısım.",
+        .de: "Die Gigabyte außerhalb Ihres Benutzerordners — was andere Cleaner im Dunkeln lassen.",
+        .es: "Los gigabytes que viven fuera de tu carpeta personal: lo que otros limpiadores dejan como misterio.",
+        .fr: "Les gigaoctets hors de votre dossier personnel — ce que les autres nettoyeurs laissent dans l'ombre.",
+        .zh: "位于个人文件夹之外的空间 — 其他清理工具从不解释的那部分。",
+    ])
+    static let systemDataWhy = T([
+        .en: "MacBroom will not delete any of this. Removing files here needs an administrator, "
+            + "and quietly escalating privileges to erase system files is not something this app does. "
+            + "Where something can be reclaimed, the exact command is given so you stay in control.",
+        .uz: "MacBroom bularning hech birini o'chirmaydi. Bu yerdan fayl o'chirish uchun administrator "
+            + "huquqi kerak, dastur esa tizim fayllarini jimgina o'chirish uchun huquq ko'tarmaydi. "
+            + "Bo'shatish mumkin bo'lgan joyda aniq buyruq beriladi — qaror sizda qoladi.",
+        .ru: "MacBroom ничего из этого не удаляет. Здесь нужны права администратора, а тихо повышать "
+            + "привилегии ради удаления системных файлов эта программа не станет. Там, где место можно "
+            + "освободить, показана точная команда — решение за вами.",
+        .tr: "MacBroom bunların hiçbirini silmez. Burada dosya silmek yönetici yetkisi ister ve bu "
+            + "uygulama sistem dosyalarını silmek için sessizce yetki yükseltmez. Geri kazanılabilecek "
+            + "yerlerde tam komut verilir — karar sizde.",
+        .de: "MacBroom löscht hiervon nichts. Dafür braucht es Administratorrechte, und diese App "
+            + "erhöht keine Rechte im Stillen, um Systemdateien zu löschen. Wo etwas frei werden kann, "
+            + "steht der genaue Befehl — die Entscheidung bleibt bei Ihnen.",
+        .es: "MacBroom no borra nada de esto. Aquí hacen falta permisos de administrador, y esta app "
+            + "no eleva privilegios en silencio para borrar archivos del sistema. Donde se puede "
+            + "recuperar espacio se muestra el comando exacto: tú decides.",
+        .fr: "MacBroom ne supprime rien de tout cela. Il faut des droits d'administrateur, et cette app "
+            + "n'élève pas silencieusement ses privilèges pour effacer des fichiers système. Là où de "
+            + "l'espace peut être récupéré, la commande exacte est donnée — vous gardez la main.",
+        .zh: "MacBroom 不会删除这里的任何内容。清理这些需要管理员权限，而本应用不会为了删除系统文件而"
+            + "悄悄提权。凡是可以回收的，都会给出确切命令 — 由你决定。",
+    ])
+    static let purgeableTitle = T([
+        .en: "Purgeable space", .uz: "Purgeable joy", .ru: "Очищаемое место",
+        .tr: "Boşaltılabilir alan", .de: "Bereinigbarer Speicher", .es: "Espacio purgable",
+        .fr: "Espace purgeable", .zh: "可清除空间",
+    ])
+    static let purgeableExplain = T([
+        .en: "macOS reports this as available even though it is in use. The Finder counts it as free; "
+            + "`df` does not. Local Time Machine snapshots are the usual cause.",
+        .uz: "macOS buni band bo'lsa ham \"mavjud\" deb hisoblaydi. Finder uni bo'sh deb ko'rsatadi, "
+            + "`df` esa yo'q. Odatda sababi — Time Machine'ning mahalliy snapshotlari.",
+        .ru: "macOS считает это доступным, хотя место занято. Finder показывает его как свободное, "
+            + "`df` — нет. Обычная причина — локальные снимки Time Machine.",
+        .tr: "macOS bunu kullanımda olmasına rağmen \"kullanılabilir\" sayar. Finder boş gösterir, "
+            + "`df` göstermez. Genellikle sebebi Time Machine'in yerel anlık görüntüleridir.",
+        .de: "macOS zählt das als verfügbar, obwohl es belegt ist. Der Finder zeigt es als frei an, "
+            + "`df` nicht. Meist sind lokale Time-Machine-Snapshots die Ursache.",
+        .es: "macOS lo cuenta como disponible aunque esté en uso. El Finder lo muestra como libre; "
+            + "`df` no. La causa habitual son las instantáneas locales de Time Machine.",
+        .fr: "macOS le compte comme disponible bien qu'il soit occupé. Le Finder l'affiche comme libre, "
+            + "`df` non. La cause habituelle : les instantanés locaux de Time Machine.",
+        .zh: "macOS 把这部分算作可用，尽管它正被占用。访达显示为可用，`df` 不会。常见原因是"
+            + "Time Machine 的本地快照。",
+    ])
+    static let copyCommand = T([
+        .en: "Copy command", .uz: "Buyruqni nusxalash", .ru: "Скопировать команду",
+        .tr: "Komutu kopyala", .de: "Befehl kopieren", .es: "Copiar comando",
+        .fr: "Copier la commande", .zh: "复制命令",
+    ])
+    static let copied = T([
+        .en: "Copied", .uz: "Nusxalandi", .ru: "Скопировано", .tr: "Kopyalandı",
+        .de: "Kopiert", .es: "Copiado", .fr: "Copié", .zh: "已复制",
+    ])
+    static let infoOnly = T([
+        .en: "Information only", .uz: "Faqat ma'lumot", .ru: "Только информация",
+        .tr: "Yalnızca bilgi", .de: "Nur zur Information", .es: "Solo información",
+        .fr: "Information seulement", .zh: "仅供参考",
+    ])
+    static let noSnapshots = T([
+        .en: "none — so this is not what is filling your disk",
+        .uz: "yo'q — demak diskingizni to'ldirayotgani bu emas",
+        .ru: "нет — значит диск заполняет не это",
+        .tr: "yok — yani diskinizi dolduran bu değil",
+        .de: "keine — das füllt Ihre Festplatte also nicht",
+        .es: "ninguna, así que no es esto lo que llena tu disco",
+        .fr: "aucun — ce n'est donc pas ça qui remplit votre disque",
+        .zh: "没有 — 所以占满磁盘的不是它",
+    ])
+
+    // Per-entry explanations
+    static let sdSimulators = T([
+        .en: "iOS/watchOS simulator runtimes that Xcode downloads. Usually the single biggest thing outside your home folder.",
+        .uz: "Xcode yuklab oladigan iOS/watchOS simulyator runtime'lari. Odatda uy papkasidan tashqaridagi eng katta narsa.",
+        .ru: "Среды симуляторов iOS/watchOS, которые скачивает Xcode. Обычно самое большое за пределами домашней папки.",
+        .tr: "Xcode'un indirdiği iOS/watchOS simülatör ortamları. Genelde ana klasör dışındaki en büyük öğe.",
+        .de: "iOS-/watchOS-Simulator-Runtimes, die Xcode lädt. Meist der größte Posten außerhalb des Benutzerordners.",
+        .es: "Entornos de simulador de iOS/watchOS que descarga Xcode. Suele ser lo más grande fuera de tu carpeta personal.",
+        .fr: "Environnements de simulateur iOS/watchOS téléchargés par Xcode. Souvent le plus gros poste hors dossier personnel.",
+        .zh: "Xcode 下载的 iOS/watchOS 模拟器运行时。通常是个人文件夹之外最大的一项。",
+    ])
+    static let sdCommandLineTools = T([
+        .en: "Compilers and headers installed by `xcode-select --install`. Xcode does not need them, but Homebrew and many build scripts do.",
+        .uz: "`xcode-select --install` o'rnatadigan kompilyator va sarlavhalar. Xcode'ga kerak emas, lekin Homebrew va ko'p skriptlarga kerak.",
+        .ru: "Компиляторы и заголовки от `xcode-select --install`. Xcode в них не нуждается, а Homebrew и многие скрипты — да.",
+        .tr: "`xcode-select --install` ile kurulan derleyici ve başlıklar. Xcode'a gerekmez ama Homebrew ve birçok betiğe gerekir.",
+        .de: "Compiler und Header von `xcode-select --install`. Xcode braucht sie nicht, Homebrew und viele Skripte schon.",
+        .es: "Compiladores y cabeceras de `xcode-select --install`. Xcode no los necesita, pero Homebrew y muchos scripts sí.",
+        .fr: "Compilateurs et en-têtes de `xcode-select --install`. Xcode n'en a pas besoin, Homebrew et de nombreux scripts si.",
+        .zh: "`xcode-select --install` 安装的编译器和头文件。Xcode 不需要，但 Homebrew 和许多脚本需要。",
+    ])
+    static let sdSleepImage = T([
+        .en: "The file your Mac writes RAM into before sleeping, plus swap. macOS sizes these itself; deleting them only makes it write them again.",
+        .uz: "Mac uyquga ketishdan oldin RAM'ni yozadigan fayl va svop. macOS o'zi boshqaradi; o'chirsangiz qaytadan yozadi.",
+        .ru: "Файл, куда Mac пишет RAM перед сном, и подкачка. macOS сам ими управляет; удаление приведёт лишь к перезаписи.",
+        .tr: "Mac'in uykuya geçmeden önce RAM'i yazdığı dosya ve takas. macOS kendisi yönetir; silmek yeniden yazılmasına yol açar.",
+        .de: "Die Datei, in die der Mac vor dem Ruhezustand den RAM schreibt, plus Auslagerung. macOS verwaltet das selbst.",
+        .es: "El archivo donde el Mac escribe la RAM antes de dormir, más el intercambio. macOS lo gestiona solo.",
+        .fr: "Le fichier où le Mac écrit la RAM avant la veille, plus le swap. macOS s'en occupe lui-même.",
+        .zh: "Mac 睡眠前写入内存内容的文件，以及交换空间。macOS 自行管理，删了还会再写。",
+    ])
+    static let sdHomebrew = T([
+        .en: "Installed packages and their download cache. `brew cleanup` clears old versions without touching what you use.",
+        .uz: "O'rnatilgan paketlar va ularning yuklama keshi. `brew cleanup` eski versiyalarni tozalaydi, ishlatayotganingizga tegmaydi.",
+        .ru: "Установленные пакеты и кэш загрузок. `brew cleanup` убирает старые версии, не трогая используемые.",
+        .tr: "Kurulu paketler ve indirme önbelleği. `brew cleanup` eski sürümleri temizler, kullandıklarınıza dokunmaz.",
+        .de: "Installierte Pakete und deren Download-Cache. `brew cleanup` entfernt alte Versionen, ohne Genutztes anzurühren.",
+        .es: "Paquetes instalados y su caché de descargas. `brew cleanup` borra versiones antiguas sin tocar lo que usas.",
+        .fr: "Paquets installés et leur cache de téléchargement. `brew cleanup` retire les vieilles versions sans toucher au reste.",
+        .zh: "已安装的软件包及其下载缓存。`brew cleanup` 会清理旧版本，不影响正在使用的。",
+    ])
+    static let sdSystemCaches = T([
+        .en: "Caches shared by all users. Safe to clear, but macOS rebuilds them, so the space usually comes back.",
+        .uz: "Barcha foydalanuvchilar uchun umumiy kesh. Tozalash xavfsiz, lekin macOS qayta yaratadi va joy odatda qaytadi.",
+        .ru: "Кэш, общий для всех пользователей. Чистить безопасно, но macOS его пересоздаёт, и место обычно возвращается.",
+        .tr: "Tüm kullanıcıların ortak önbelleği. Temizlemek güvenli ama macOS yeniden oluşturur, alan genelde geri dolar.",
+        .de: "Von allen Benutzern geteilte Caches. Löschen ist sicher, aber macOS legt sie neu an.",
+        .es: "Cachés compartidas por todos los usuarios. Es seguro borrarlas, pero macOS las reconstruye.",
+        .fr: "Caches partagés par tous les utilisateurs. Sans risque à vider, mais macOS les recrée.",
+        .zh: "所有用户共用的缓存。清理是安全的，但 macOS 会重建，空间通常还会回去。",
+    ])
+    static let sdSystemLogs = T([
+        .en: "System-wide diagnostic logs. Only worth clearing if they have grown unusually large.",
+        .uz: "Tizim bo'ylab texnik yozuvlar. Faqat g'ayrioddiy kattalashib ketsa tozalashga arziydi.",
+        .ru: "Общесистемные журналы. Чистить стоит, только если они разрослись необычно сильно.",
+        .tr: "Sistem geneli tanılama günlükleri. Yalnızca alışılmadık şekilde büyüdüyse temizlemeye değer.",
+        .de: "Systemweite Diagnoseprotokolle. Nur lohnenswert, wenn sie ungewöhnlich groß geworden sind.",
+        .es: "Registros de diagnóstico de todo el sistema. Solo vale la pena borrarlos si han crecido mucho.",
+        .fr: "Journaux de diagnostic du système. À vider seulement s'ils ont anormalement grossi.",
+        .zh: "系统级诊断日志。只有异常增大时才值得清理。",
+    ])
+    static let sdApplications = T([
+        .en: "Your installed apps. Use the Installed Apps screen to remove them together with their leftovers.",
+        .uz: "O'rnatilgan ilovalaringiz. Ularni qoldiqlari bilan o'chirish uchun \"O'rnatilgan ilovalar\" bo'limidan foydalaning.",
+        .ru: "Ваши установленные программы. Удаляйте их вместе с остатками в разделе «Установленные программы».",
+        .tr: "Yüklü uygulamalarınız. Artıklarıyla birlikte kaldırmak için \"Yüklü Uygulamalar\" bölümünü kullanın.",
+        .de: "Ihre installierten Apps. Zum Entfernen samt Resten den Bereich „Installierte Apps\" nutzen.",
+        .es: "Tus apps instaladas. Usa la pantalla «Apps instaladas» para quitarlas junto con sus restos.",
+        .fr: "Vos apps installées. Utilisez l'écran « Apps installées » pour les retirer avec leurs résidus.",
+        .zh: "已安装的应用。请在\"已安装应用\"中连同残留文件一起卸载。",
+    ])
+    static let sdSnapshots = T([
+        .en: "Hourly copies Time Machine keeps on the startup disk. They pin space that deleted files used to occupy.",
+        .uz: "Time Machine ishga tushirish diskida saqlaydigan soatlik nusxalar. O'chirilgan fayllar egallagan joyni ushlab turadi.",
+        .ru: "Ежечасные копии, которые Time Machine держит на загрузочном диске. Они удерживают место удалённых файлов.",
+        .tr: "Time Machine'in başlangıç diskinde tuttuğu saatlik kopyalar. Silinen dosyaların yerini tutarlar.",
+        .de: "Stündliche Kopien, die Time Machine auf dem Startvolume behält. Sie belegen den Platz gelöschter Dateien.",
+        .es: "Copias horarias que Time Machine guarda en el disco de arranque. Retienen el espacio de archivos ya borrados.",
+        .fr: "Copies horaires que Time Machine garde sur le disque de démarrage. Elles retiennent l'espace des fichiers supprimés.",
+        .zh: "Time Machine 在启动磁盘上保留的每小时副本。它们占住了已删除文件曾用的空间。",
+    ])
 }

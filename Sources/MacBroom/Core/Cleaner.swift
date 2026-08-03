@@ -62,3 +62,11 @@ enum Cleaner {
         NSWorkspace.shared.activateFileViewerSelecting([url])
     }
 }
+
+/// Small wrapper so views do not reach into AppKit directly.
+enum Clipboard {
+    static func copy(_ text: String) {
+        NSPasteboard.general.clearContents()
+        NSPasteboard.general.setString(text, forType: .string)
+    }
+}

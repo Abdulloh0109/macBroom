@@ -34,6 +34,7 @@ The interface speaks **Uzbek, English, Russian, Turkish, German, Spanish, French
 
 | Screen                    | What it does                                                                                           |
 | ------------------------- | ------------------------------------------------------------------------------------------------------ |
+| **System Data** | Explains the gigabytes outside your home folder and the purgeable gap — the part other cleaners leave a mystery |
 | **System** | Processor, memory, battery, Wi-Fi and attached devices — live, refreshed every 2 s |
 | **Smart Scan**            | Finds caches, logs, developer build junk, Trash and stale installers, and clears them in one pass      |
 | **Disk Map**              | Draws every folder as a box sized to its contents — where the space went, at a glance                  |

@@ -4,6 +4,7 @@ enum Feature: String, CaseIterable, Identifiable {
     case system
     case smartScan
     case diskMap
+    case systemData
     case largeFiles
     case projects
     case apps
@@ -18,6 +19,7 @@ enum Feature: String, CaseIterable, Identifiable {
         case .system: return S.system
         case .smartScan: return S.smartScan
         case .diskMap: return S.diskMap
+        case .systemData: return S.systemData
         case .largeFiles: return S.largeFiles
         case .projects: return S.projects
         case .apps: return S.apps
@@ -32,6 +34,7 @@ enum Feature: String, CaseIterable, Identifiable {
         case .system: return "gauge.with.dots.needle.67percent"
         case .smartScan: return "sparkles"
         case .diskMap: return "square.grid.3x3.topleft.filled"
+        case .systemData: return "questionmark.folder"
         case .largeFiles: return "externaldrive"
         case .projects: return "folder.badge.gearshape"
         case .apps: return "square.grid.2x2"
@@ -48,6 +51,7 @@ struct RootView: View {
     @StateObject private var scan = SmartScanModel()
     @StateObject private var largeFiles = LargeFilesModel()
     @StateObject private var diskMap = DiskMapModel()
+    @StateObject private var systemData = SystemDataModel()
     @StateObject private var projects = ProjectsModel()
     @StateObject private var appsModel = AppsModel()
     @StateObject private var processes = ProcessesModel()
@@ -62,6 +66,7 @@ struct RootView: View {
             case .system: SystemView(model: systemModel)
             case .smartScan: SmartScanView(model: scan)
             case .diskMap: DiskMapView(model: diskMap)
+            case .systemData: SystemDataView(model: systemData)
             case .largeFiles: LargeFilesView(model: largeFiles)
             case .projects: ProjectsView(model: projects)
             case .apps: AppsView(model: appsModel, hidden: false)
