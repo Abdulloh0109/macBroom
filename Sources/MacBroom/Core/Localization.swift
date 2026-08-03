@@ -27,6 +27,12 @@ enum Language: String, CaseIterable, Identifiable {
         }
     }
 
+    /// Used where Foundation already knows how to write something — dates and
+    /// lengths of time — so those are not hand-translated.
+    var locale: Locale {
+        Locale(identifier: self == .zh ? "zh-Hans" : rawValue)
+    }
+
     /// Always written the way speakers of that language write it themselves.
     var title: String {
         switch self {
@@ -1864,4 +1870,171 @@ enum S {
             .fr: "\(count) changements", .zh: "\(count) 次变化",
         ])
     }
+
+    // Checkpoints and what changed between them
+    static let changes = T([
+        .en: "What Changed", .uz: "Nima o'zgardi", .ru: "Что изменилось",
+        .tr: "Ne Değişti", .de: "Was sich geändert hat", .es: "Qué ha cambiado",
+        .fr: "Ce qui a changé", .zh: "有什么变化",
+    ])
+    static let changesIntro = T([
+        .en: "Save today's folder sizes, then later see exactly which folder grew.",
+        .uz: "Bugungi papka hajmlarini saqlab qo'yadi, keyinroq qaysi papka o'sganini aniq ko'rsatadi.",
+        .ru: "Сохраняет сегодняшние размеры папок, чтобы позже показать, какая именно выросла.",
+        .tr: "Bugünün klasör boyutlarını kaydeder, sonra hangisinin büyüdüğünü tam olarak gösterir.",
+        .de: "Speichert die heutigen Ordnergrößen und zeigt später, welcher Ordner gewachsen ist.",
+        .es: "Guarda los tamaños de hoy y luego muestra exactamente qué carpeta creció.",
+        .fr: "Enregistre les tailles d'aujourd'hui, puis montre exactement quel dossier a grossi.",
+        .zh: "保存今天的文件夹大小，之后精确显示是哪个文件夹变大了。",
+    ])
+    static let changesHint = T([
+        .en: "Nothing saved yet. Save a checkpoint now — it is one scan — then come back after a "
+            + "build, an update or a week, and the difference will be waiting for you.",
+        .uz: "Hozircha hech narsa saqlanmagan. Holatni saqlab qo'ying — bir marta skanerlanadi — "
+            + "keyin build, yangilanish yoki bir haftadan keyin qaytsangiz, farqi tayyor turadi.",
+        .ru: "Пока ничего не сохранено. Сохраните срез — это один проход — а затем вернитесь после "
+            + "сборки, обновления или через неделю: разница будет готова.",
+        .tr: "Henüz bir şey kaydedilmedi. Şimdi bir kayıt alın — tek taramadır — sonra bir derleme, "
+            + "güncelleme veya bir hafta sonra dönün; fark hazır olacak.",
+        .de: "Noch nichts gespeichert. Speichern Sie jetzt einen Stand — ein Scan — und kommen Sie "
+            + "nach einem Build, einem Update oder einer Woche zurück: die Differenz wartet dann hier.",
+        .es: "Aún no hay nada guardado. Guarda un punto ahora — es un solo análisis — y vuelve tras "
+            + "una compilación, una actualización o una semana: la diferencia estará esperándote.",
+        .fr: "Rien n'est encore enregistré. Enregistrez un point maintenant — c'est une seule "
+            + "analyse — puis revenez après un build, une mise à jour ou une semaine : l'écart sera là.",
+        .zh: "还没有保存任何记录。现在保存一个记录点（只需扫描一次），然后在一次编译、一次更新或一周之后回来，差异就在这里等着你。",
+    ])
+    static let takeCheckpoint = T([
+        .en: "Save a checkpoint", .uz: "Hozirgi holatni saqlash", .ru: "Сохранить срез",
+        .tr: "Kayıt al", .de: "Stand speichern", .es: "Guardar un punto",
+        .fr: "Enregistrer un point", .zh: "保存记录点",
+    ])
+    static let compareAgainst = T([
+        .en: "Compare against", .uz: "Nima bilan solishtirish", .ru: "Сравнить с",
+        .tr: "Şununla karşılaştır", .de: "Vergleichen mit", .es: "Comparar con",
+        .fr: "Comparer avec", .zh: "与之比较",
+    ])
+    static let checkpoints = T([
+        .en: "Saved checkpoints", .uz: "Saqlangan holatlar", .ru: "Сохранённые срезы",
+        .tr: "Kayıtlı anlar", .de: "Gespeicherte Stände", .es: "Puntos guardados",
+        .fr: "Points enregistrés", .zh: "已保存的记录点",
+    ])
+    static let forgetCheckpoint = T([
+        .en: "Delete this checkpoint", .uz: "Bu holatni o'chirish", .ru: "Удалить этот срез",
+        .tr: "Bu kaydı sil", .de: "Diesen Stand löschen", .es: "Borrar este punto",
+        .fr: "Supprimer ce point", .zh: "删除这个记录点",
+    ])
+    static let oneCheckpointTitle = T([
+        .en: "One checkpoint saved", .uz: "Bitta holat saqlandi", .ru: "Сохранён один срез",
+        .tr: "Bir kayıt alındı", .de: "Ein Stand gespeichert", .es: "Un punto guardado",
+        .fr: "Un point enregistré", .zh: "已保存一个记录点",
+    ])
+    static let grownTotal = T([
+        .en: "Grown", .uz: "O'sgan", .ru: "Выросло", .tr: "Büyüyen",
+        .de: "Gewachsen", .es: "Ha crecido", .fr: "A grossi", .zh: "增长",
+    ])
+    static let freedTotal = T([
+        .en: "Freed", .uz: "Bo'shagan", .ru: "Освободилось", .tr: "Boşalan",
+        .de: "Freigeworden", .es: "Liberado", .fr: "Libéré", .zh: "释放",
+    ])
+    static let scatteredTotal = T([
+        .en: "Scattered", .uz: "Tarqoq", .ru: "Разрозненно", .tr: "Dağınık",
+        .de: "Verstreut", .es: "Disperso", .fr: "Dispersé", .zh: "零散",
+    ])
+    static let badgeNew = T([
+        .en: "new", .uz: "yangi", .ru: "новое", .tr: "yeni",
+        .de: "neu", .es: "nuevo", .fr: "nouveau", .zh: "新增",
+    ])
+    static let badgeGone = T([
+        .en: "gone", .uz: "yo'qoldi", .ru: "исчезло", .tr: "silinmiş",
+        .de: "weg", .es: "ya no está", .fr: "disparu", .zh: "已消失",
+    ])
+    static let checkpointMismatch = T([
+        .en: "These two checkpoints measured different folders, so they cannot be subtracted.",
+        .uz: "Bu ikki holat boshqa-boshqa papkalarni o'lchagan, shuning uchun ularni ayirib bo'lmaydi.",
+        .ru: "Эти два среза измеряли разные папки, поэтому вычитать их нельзя.",
+        .tr: "Bu iki kayıt farklı klasörleri ölçmüş, bu yüzden birbirinden çıkarılamaz.",
+        .de: "Diese beiden Stände haben verschiedene Ordner gemessen und lassen sich nicht voneinander abziehen.",
+        .es: "Estos dos puntos midieron carpetas distintas, así que no se pueden restar.",
+        .fr: "Ces deux points ont mesuré des dossiers différents : impossible de les soustraire.",
+        .zh: "这两个记录点测量的是不同的文件夹，无法相减。",
+    ])
+
+    static func oneCheckpointBody(_ date: String, _ size: String) -> T {
+        T([
+            .en: "\(size) measured on \(date). Save another one later — after a build, an update or "
+                + "a week — and this screen will show what changed between the two.",
+            .uz: "\(date) da \(size) o'lchandi. Keyinroq — build, yangilanish yoki bir haftadan "
+                + "so'ng — yana bittasini saqlang, shu ekran ikkisi orasidagi farqni ko'rsatadi.",
+            .ru: "\(size) измерено \(date). Сохраните ещё один позже — после сборки, обновления или "
+                + "через неделю — и этот экран покажет, что изменилось между ними.",
+            .tr: "\(date) tarihinde \(size) ölçüldü. Daha sonra — bir derleme, güncelleme veya bir "
+                + "hafta sonra — bir tane daha kaydedin; bu ekran ikisi arasındaki farkı gösterecek.",
+            .de: "\(size) gemessen am \(date). Speichern Sie später einen weiteren — nach einem "
+                + "Build, einem Update oder einer Woche — und dieser Bereich zeigt den Unterschied.",
+            .es: "\(size) medidos el \(date). Guarda otro más adelante — tras una compilación, una "
+                + "actualización o una semana — y esta pantalla mostrará qué cambió entre ambos.",
+            .fr: "\(size) mesurés le \(date). Enregistrez-en un autre plus tard — après un build, "
+                + "une mise à jour ou une semaine — et cet écran montrera ce qui a changé entre les deux.",
+            .zh: "\(date) 测得 \(size)。之后再保存一个（编译、更新或一周之后），本页就会显示两者之间的变化。",
+        ])
+    }
+
+    static func checkpointDetail(_ size: String, _ files: Int) -> T {
+        T([
+            .en: "\(size) · \(files) files", .uz: "\(size) · \(files) fayl",
+            .ru: "\(size) · \(files) файлов", .tr: "\(size) · \(files) dosya",
+            .de: "\(size) · \(files) Dateien", .es: "\(size) · \(files) archivos",
+            .fr: "\(size) · \(files) fichiers", .zh: "\(size) · \(files) 个文件",
+        ])
+    }
+
+    static func overSpan(_ span: String) -> T {
+        T([
+            // Russian would need the accusative after "за" ("за 1 минуту"), and the
+            // length of time comes from Foundation in the nominative. A label avoids
+            // gluing a case ending onto text this code does not own.
+            .en: "over \(span)", .uz: "\(span) ichida", .ru: "прошло: \(span)",
+            .tr: "\(span) içinde", .de: "in \(span)", .es: "en \(span)",
+            .fr: "en \(span)", .zh: "在 \(span) 内",
+        ])
+    }
+
+    static func noBigChanges(_ floor: String) -> T {
+        T([
+            .en: "Nothing changed by more than \(floor).",
+            .uz: "\(floor) dan ko'proq o'zgargan narsa yo'q.",
+            .ru: "Ничего не изменилось больше чем на \(floor).",
+            .tr: "\(floor) üzerinde değişen bir şey yok.",
+            .de: "Nichts hat sich um mehr als \(floor) verändert.",
+            .es: "Nada cambió más de \(floor).",
+            .fr: "Rien n'a changé de plus de \(floor).",
+            .zh: "没有任何项目的变化超过 \(floor)。",
+        ])
+    }
+
+    static let changesNote = T([
+        .en: "A folder is credited only with the change it caused itself, so a build folder that "
+            + "grew 3 GB is listed once and not counted again in every folder above it. Changes too "
+            + "small to list are added up as “scattered”.",
+        .uz: "Har bir papkaga faqat o'zi keltirgan o'zgarish yoziladi: 3 GB o'sgan build papkasi "
+            + "bir marta ko'rinadi, undan yuqoridagi papkalarda qayta hisoblanmaydi. Ro'yxatga "
+            + "tushmaydigan mayda o'zgarishlar “tarqoq” bo'lib qo'shiladi.",
+        .ru: "Папке приписывается только то изменение, которое она сама вызвала: выросшая на 3 ГБ "
+            + "папка сборки указана один раз и не считается заново в каждой папке выше. Слишком "
+            + "мелкие изменения складываются в «разрозненно».",
+        .tr: "Bir klasöre yalnızca kendi yol açtığı değişim yazılır: 3 GB büyüyen derleme klasörü "
+            + "bir kez listelenir, üstündeki her klasörde yeniden sayılmaz. Listelenemeyecek kadar "
+            + "küçük değişimler “dağınık” olarak toplanır.",
+        .de: "Einem Ordner wird nur die Änderung zugeschrieben, die er selbst verursacht hat: ein um "
+            + "3 GB gewachsener Build-Ordner erscheint einmal und wird nicht in jedem Ordner darüber "
+            + "erneut gezählt. Zu kleine Änderungen werden als „verstreut“ summiert.",
+        .es: "A cada carpeta se le atribuye solo el cambio que causó ella misma: una carpeta de "
+            + "compilación que creció 3 GB aparece una vez y no se vuelve a contar en cada carpeta "
+            + "superior. Los cambios demasiado pequeños se suman como «disperso».",
+        .fr: "Un dossier ne se voit attribuer que le changement qu'il a lui-même causé : un dossier "
+            + "de build ayant grossi de 3 Go apparaît une fois et n'est pas recompté dans chaque "
+            + "dossier au-dessus. Les changements trop petits sont additionnés comme « dispersé ».",
+        .zh: "每个文件夹只承担它自己造成的变化：增长 3 GB 的编译目录只列出一次，不会在它上面的每一层里重复计算。太小而无法列出的变化会汇总为“零散”。",
+    ])
 }

@@ -36,6 +36,7 @@ The interface speaks **Uzbek, English, Russian, Turkish, German, Spanish, French
 | ------------------------- | ------------------------------------------------------------------------------------------------------ |
 | **System Data** | Explains the gigabytes outside your home folder and the purgeable gap — the part other cleaners leave a mystery |
 | **What's Growing** | Live FSEvents watch showing which folder is taking the space right now |
+| **What Changed** | The difference between two measurements: "`.build` grew 98 MB since Monday". Not a thing other cleaners do |
 | **History** | Everything MacBroom has removed, with its original path and a button to put it back |
 | **System** | Processor, memory, battery, Wi-Fi and attached devices — live, refreshed every 2 s |
 | **Smart Scan**            | Finds caches, logs, developer build junk, Trash and stale installers, and clears them in one pass      |
@@ -173,7 +174,58 @@ proportional to the folder's size — twice the bytes, twice the area.
 A whole home folder (100k+ files) is measured in **~20 seconds**. The tree is built
 in a single pass, so moving between boxes afterwards is instant.
 
-### 4. Large & Old Files
+### 4. System Data
+
+![System Data](docs/uz-system-data.png)
+
+Names the gigabytes macOS files under "System Data" and explains none of: simulator
+runtimes, Xcode command line tools, the sleep image (`/private/var/vm`), Homebrew,
+system caches, Time Machine local snapshots.
+
+Some of them MacBroom will not remove itself — it hands you the correct command with a
+copy button instead, e.g. `xcrun simctl delete unavailable`. **Purgeable** space is
+what macOS believes it could reclaim; it is not free space, so it never counts as free.
+
+---
+
+### 5. What's Growing
+
+![What's Growing](docs/uz-growth.png)
+
+Pick a folder, press start, and the disk is watched live through FSEvents: the change
+in free space on top, the folders that explain it underneath. A build, a container, a
+download — this says which one is eating the disk while it happens.
+
+> A file first seen being modified counts as no growth: its earlier size is unknown and
+> guessing would overstate the number. New and deleted files count in full.
+
+---
+
+### 6. What Changed
+
+![What Changed](docs/uz-changes.png)
+
+**Save a checkpoint** measures every folder and keeps the result in a small file
+(~140 KB for a home folder). Subtracted from the next one, it answers "what grew since
+last week" exactly.
+
+The screenshot is two checkpoints around a single `swift build`: **+98.7 MB**, credited
+to `ModuleCache`, `MacBroom.build` and `MacBroom.dSYM`.
+
+Each folder is credited only with the change it caused itself, so a build folder that
+grew 3 GB is listed once and not counted again in every folder above it — which is why
+the listed figures add up to the total.
+
+Checkpoints can be taken from the terminal, so this can go on a schedule:
+
+```bash
+MacBroom --checkpoint    # measure and keep
+MacBroom --changes       # difference between the last two
+```
+
+---
+
+### 7. Large & Old Files
 
 ![Large & Old Files](docs/uz-large-files.png)
 
@@ -182,7 +234,7 @@ Pick a folder and a size threshold; results stream in as they are found.
 **Hidden folders are included**, which matters: the biggest files usually sit in
 `~/.android` (emulator images), `~/.cache` or `~/.docker`, not in `~/Documents`.
 
-### 5. Developer Projects
+### 8. Developer Projects
 
 ![Developer Projects](docs/uz-projects.png)
 
@@ -207,7 +259,7 @@ screen finds them across every project and groups them:
 **Only untouched for 3 months** narrows the list to projects you have not worked on
 in a while — the ones actually worth clearing.
 
-### 6. Installed Apps
+### 9. Installed Apps
 
 ![Installed Apps](docs/uz-apps.png)
 
@@ -222,7 +274,7 @@ items if you plan to reinstall and want to keep your settings.
 
 macOS system apps are shown with a lock and cannot be removed.
 
-### 7. Hidden Apps
+### 10. Hidden Apps
 
 ![Hidden Apps](docs/uz-hidden.png)
 
@@ -234,7 +286,7 @@ Apps with no Dock icon. Two kinds:
 Why it matters: these are the apps you never notice. On one machine this found **two
 copies of Docker** — 4.82.0 and 4.84.0, about 2.2 GB each. One was a leftover.
 
-### 8. Running in Background
+### 11. Running in Background
 
 ![Running in Background](docs/uz-processes.png)
 
@@ -250,7 +302,7 @@ Worth knowing: a dev server started from a terminal — `npm run web`, `node`,
 would be invisible in the usual lists. MacBroom adds every port-holding process
 explicitly.
 
-### 9. Startup Services
+### 12. Startup Services
 
 ![Startup Services](docs/uz-services.png)
 
@@ -267,6 +319,24 @@ moves the `.plist` to the Trash.
 
 This is usually where update checkers from Google, Adobe and Dropbox live — running
 in the background all day, eating battery.
+
+---
+
+### 13. History
+
+![History](docs/uz-history.png)
+
+Everything MacBroom has removed: when, from which screen, how much it freed and the
+**original path** — with a button that moves it back out of the Trash to exactly where
+it came from. It works because `trashItem` reports where the item landed and MacBroom
+keeps that.
+
+If the Trash has been emptied the entry is marked gone for good rather than offering a
+button that cannot work.
+
+> Moving files out of the Trash is protected by macOS, and an ad-hoc signed app is
+> sometimes not even offered the prompt. In that case **Show in Trash** puts you in
+> front of the file in Finder.
 
 ---
 
