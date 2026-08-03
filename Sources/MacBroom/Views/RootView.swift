@@ -6,6 +6,7 @@ enum Feature: String, CaseIterable, Identifiable {
     case diskMap
     case systemData
     case growth
+    case changes
     case largeFiles
     case projects
     case apps
@@ -23,6 +24,7 @@ enum Feature: String, CaseIterable, Identifiable {
         case .diskMap: return S.diskMap
         case .systemData: return S.systemData
         case .growth: return S.growth
+        case .changes: return S.changes
         case .largeFiles: return S.largeFiles
         case .projects: return S.projects
         case .apps: return S.apps
@@ -40,6 +42,7 @@ enum Feature: String, CaseIterable, Identifiable {
         case .diskMap: return "square.grid.3x3.topleft.filled"
         case .systemData: return "questionmark.folder"
         case .growth: return "waveform.path.ecg"
+        case .changes: return "chart.line.uptrend.xyaxis"
         case .largeFiles: return "externaldrive"
         case .projects: return "folder.badge.gearshape"
         case .apps: return "square.grid.2x2"
@@ -59,6 +62,7 @@ struct RootView: View {
     @StateObject private var diskMap = DiskMapModel()
     @StateObject private var systemData = SystemDataModel()
     @StateObject private var growth = GrowthModel()
+    @StateObject private var changes = ChangesModel()
     @StateObject private var projects = ProjectsModel()
     @StateObject private var appsModel = AppsModel()
     @StateObject private var processes = ProcessesModel()
@@ -76,6 +80,7 @@ struct RootView: View {
             case .diskMap: DiskMapView(model: diskMap)
             case .systemData: SystemDataView(model: systemData)
             case .growth: GrowthView(model: growth)
+            case .changes: ChangesView(model: changes)
             case .largeFiles: LargeFilesView(model: largeFiles)
             case .projects: ProjectsView(model: projects)
             case .apps: AppsView(model: appsModel, hidden: false)
@@ -106,6 +111,7 @@ struct RootView: View {
                 case .diskMap: diskMap.scan()
                 case .projects: projects.scan()
                 case .growth: growth.start()
+                case .changes: changes.take()
                 default: break
                 }
             }

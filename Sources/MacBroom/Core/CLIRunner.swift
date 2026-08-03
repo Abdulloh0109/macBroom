@@ -9,6 +9,7 @@ enum CLIRunner {
         if args.contains("--selftest") { selfTest() }
         if args.contains("--undotest") { undoTest() }
         if args.contains("--growthtest") { growthTest() }
+        if args.contains("--difftest") { diffTest() }
         if args.contains("--historytest") {
             historyTest(keep: args.contains("keep"), restoreOnly: args.contains("restore"))
         }
@@ -16,6 +17,11 @@ enum CLIRunner {
             let target = index + 1 < args.count ? args[index + 1] : NSHomeDirectory()
             mapReport(URL(fileURLWithPath: target))
         }
+        if let index = args.firstIndex(of: "--checkpoint") {
+            let next = index + 1 < args.count ? args[index + 1] : ""
+            takeCheckpoint(URL(fileURLWithPath: next.hasPrefix("-") || next.isEmpty ? NSHomeDirectory() : next))
+        }
+        if args.contains("--changes") { changesReport() }
         guard args.contains("--scan") else { return }
         let asJSON = args.contains("--json")
 
@@ -140,6 +146,84 @@ enum CLIRunner {
         exit(0)
     }
 
+    /// `MacBroom --checkpoint [path]` — measures a folder now and keeps the result.
+    ///
+    /// The same thing the "What Changed" screen's button does. Available here so it
+    /// can be put on a schedule: a checkpoint a week costs one scan and makes the
+    /// question "what has been eating my disk?" answerable after the fact.
+    private static func takeCheckpoint(_ root: URL) {
+        let started = Date()
+        let checkpoint = DiskCheckpoint.make(from: DiskMapTree.build(root: root))
+        let saved = blocking { await CheckpointStore.shared.save(checkpoint) }
+        let stored = blocking { await CheckpointStore.shared.index() }
+
+        print("")
+        print("  \(checkpoint.meta.root)")
+        print(
+            "  \(Format.bytes(checkpoint.meta.total)) · \(checkpoint.meta.fileCount) files"
+                + " · \(checkpoint.meta.entryCount) folders kept"
+                + " · \(String(format: "%.1f", Date().timeIntervalSince(started)))s"
+        )
+        print(saved ? "  saved · \(stored.count) checkpoint(s) stored" : "  could not be saved")
+        print("")
+        exit(saved ? 0 : 1)
+    }
+
+    /// `MacBroom --changes` — what changed between the two newest checkpoints.
+    private static func changesReport() {
+        let index = blocking { await CheckpointStore.shared.index() }
+        guard index.count >= 2, let newest = index.first,
+            let previous = index.dropFirst().first(where: { $0.root == newest.root })
+        else {
+            print("\n  Need two checkpoints of the same folder — run --checkpoint first\n")
+            exit(1)
+        }
+        guard let after = blocking({ await CheckpointStore.shared.load(newest.id) }),
+            let before = blocking({ await CheckpointStore.shared.load(previous.id) }),
+            let diff = DiskComparison.between(before, after)
+        else {
+            print("\n  Those two checkpoints cannot be compared\n")
+            exit(1)
+        }
+
+        print("")
+        print("  \(newest.root)")
+        print("  \(Format.dateTime(before.meta.takenAt))  →  \(Format.dateTime(after.meta.takenAt))")
+        print(
+            "  net \(Format.signedBytes(diff.netChange))"
+                + " · grown \(Format.signedBytes(diff.grown))"
+                + " · freed \(Format.signedBytes(diff.freed))"
+                + " · scattered \(Format.signedBytes(diff.scattered))"
+        )
+        print("  " + String(repeating: "─", count: 66))
+        if diff.rows.isEmpty {
+            print("  nothing changed by more than \(Format.bytes(DiskComparison.minimumChange))")
+        }
+        for row in diff.rows.prefix(15) {
+            let tag = row.kind == .changed ? "" : " [\(row.kind.rawValue)]"
+            let name = row.relative.count > 44 ? "…" + String(row.relative.suffix(43)) : row.relative
+            print(
+                "  " + Format.signedBytes(row.exclusive)
+                    .padding(toLength: 12, withPad: " ", startingAt: 0)
+                    + name + tag
+            )
+        }
+        print("")
+        exit(0)
+    }
+
+    /// Bridges an actor into these synchronous entry points.
+    private static func blocking<Value>(_ operation: @escaping @Sendable () async -> Value) -> Value {
+        let gate = DispatchSemaphore(value: 0)
+        var result: Value?
+        Task {
+            result = await operation()
+            gate.signal()
+        }
+        gate.wait()
+        return result!
+    }
+
     /// `MacBroom --map [path]` — the Disk Map's numbers, on the terminal.
     /// Same tree the GUI draws, so it doubles as a way to check them against `du`.
     private static func mapReport(_ root: URL) {
@@ -249,6 +333,159 @@ enum CLIRunner {
 
         print("  " + String(repeating: "─", count: 62))
         print(failures == 0 ? "  Byte deltas are correct\n" : "  \(failures) check(s) FAILED\n")
+        exit(failures == 0 ? 0 : 1)
+    }
+
+    /// `MacBroom --difftest` — checks the arithmetic behind "what changed".
+    ///
+    /// Two checkpoints of a scratch tree with a known amount written in between:
+    /// the change has to land on the folder that actually caused it, and the listed
+    /// figures have to add up to the total without counting anything twice.
+    private static func diffTest() {
+        let fm = FileManager.default
+        let root = SafetyGuard.home
+            .appendingPathComponent("Library/Caches/macbroom-diff-test", isDirectory: true)
+        let megabyte = 1_048_576
+        var failures = 0
+
+        func check(_ label: String, _ passed: Bool, _ detail: String = "") {
+            if !passed { failures += 1 }
+            print("  \(passed ? "✓" : "✗ FAIL")  \(label)\(detail.isEmpty ? "" : "  (\(detail))")")
+        }
+
+        func write(_ mb: Int, to url: URL) {
+            try? fm.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
+            try? Data(repeating: 3, count: mb * megabyte).write(to: url)
+        }
+
+        func checkpoint() -> DiskCheckpoint {
+            DiskCheckpoint.make(from: DiskMapTree.build(root: root))
+        }
+
+        /// Allocation rounds up, so exact equality would be a flaky assertion.
+        func near(_ actual: Int64, _ expectedMB: Int, tolerance: Int = 3) -> Bool {
+            abs(actual - Int64(expectedMB * megabyte)) < Int64(tolerance * megabyte)
+        }
+
+        print("\n  Checkpoint comparison\n  " + String(repeating: "─", count: 62))
+
+        try? fm.removeItem(at: root)
+        write(30, to: root.appendingPathComponent("other/base.bin"))
+        let first = checkpoint()
+        check("a checkpoint was taken", first.meta.total > 0, Format.bytes(first.meta.total))
+
+        // One large file, four levels down.
+        write(100, to: root.appendingPathComponent("deep/a/b/blob.bin"))
+        let second = checkpoint()
+
+        guard let grew = DiskComparison.between(first, second, minimum: Int64(5 * megabyte)) else {
+            check("the two checkpoints compare", false)
+            print("  \(failures) check(s) FAILED\n")
+            exit(1)
+        }
+
+        check(
+            "the whole tree grew by the 100 MB written",
+            near(grew.netChange, 100),
+            Format.signedBytes(grew.netChange)
+        )
+        check(
+            "the change is pinned on the file that caused it",
+            grew.rows.first?.relative == "deep/a/b/blob.bin",
+            grew.rows.first?.relative ?? "no rows"
+        )
+        check(
+            "and it is credited the full 100 MB",
+            grew.rows.first.map { near($0.exclusive, 100) } ?? false,
+            grew.rows.first.map { Format.signedBytes($0.exclusive) } ?? "—"
+        )
+        // The four folders above it grew by the same 100 MB. Listing them too would
+        // report 500 MB of growth for 100 MB written, which is the mistake this
+        // exclusive accounting exists to prevent.
+        check(
+            "the folders above it are not counted again",
+            grew.rows.count == 1,
+            "\(grew.rows.count) row(s): " + grew.rows.map(\.relative).joined(separator: ", ")
+        )
+        check("it is reported as newly appeared", grew.rows.first?.kind == .appeared)
+        check(
+            "the listed rows and the scattered remainder add up to the total",
+            grew.rows.reduce(0) { $0 + $1.exclusive } + grew.scattered == grew.netChange,
+            "rows \(Format.signedBytes(grew.rows.reduce(0) { $0 + $1.exclusive }))"
+                + " + scattered \(Format.signedBytes(grew.scattered))"
+                + " vs \(Format.signedBytes(grew.netChange))"
+        )
+        check(
+            "nothing was left unexplained",
+            abs(grew.scattered) < Int64(megabyte),
+            Format.signedBytes(grew.scattered)
+        )
+        check("the span between the two is measured", grew.span >= 0)
+
+        // Many files, each too small to be its own node: the folder takes the credit.
+        for index in 1...20 {
+            write(3, to: root.appendingPathComponent("fresh/part-\(index).bin"))
+        }
+        let third = checkpoint()
+        let spread = DiskComparison.between(second, third, minimum: Int64(5 * megabyte))
+        check(
+            "20 small files are blamed on their folder, not listed one by one",
+            spread?.rows.first?.relative == "fresh" && spread?.rows.count == 1,
+            spread?.rows.map(\.relative).joined(separator: ", ") ?? "—"
+        )
+        check(
+            "the folder is credited all 60 MB",
+            spread?.rows.first.map { near($0.exclusive, 60) } ?? false,
+            spread?.rows.first.map { Format.signedBytes($0.exclusive) } ?? "—"
+        )
+
+        // Deletion has to read as a shrink, not as nothing.
+        try? fm.removeItem(at: root.appendingPathComponent("deep"))
+        let fourth = checkpoint()
+        let shrank = DiskComparison.between(third, fourth, minimum: Int64(5 * megabyte))
+        check(
+            "deleting it reads as −100 MB",
+            shrank.map { near($0.netChange, -100) } ?? false,
+            shrank.map { Format.signedBytes($0.netChange) } ?? "—"
+        )
+        check(
+            "the vanished file is marked as gone",
+            shrank?.rows.first?.kind == .vanished,
+            shrank?.rows.first.map { "\($0.relative) \($0.kind.rawValue)" } ?? "—"
+        )
+
+        // Different folders measured: subtracting them would invent changes.
+        let elsewhere = DiskCheckpoint.make(
+            from: DiskMapTree.build(root: root.appendingPathComponent("other"))
+        )
+        check(
+            "checkpoints of different folders refuse to compare",
+            DiskComparison.between(first, elsewhere) == nil
+        )
+
+        // A checkpoint is only useful if it survives being written and read back.
+        let before = blocking { await CheckpointStore.shared.index() }.count
+        check("saved to disk", blocking { await CheckpointStore.shared.save(second) })
+        let reloaded = blocking { await CheckpointStore.shared.load(second.meta.id) }
+        check("read back with every entry intact", reloaded?.sizes == second.sizes)
+        check("and the same total", reloaded?.meta.total == second.meta.total)
+        check(
+            "comparing the reloaded copy gives the same answer",
+            reloaded.flatMap { DiskComparison.between(first, $0) }?.netChange == grew.netChange
+        )
+        blocking { await CheckpointStore.shared.delete(second.meta.id) }
+        check(
+            "deleting it leaves the list as it was",
+            blocking { await CheckpointStore.shared.index() }.count == before
+        )
+        check(
+            "and its body is gone from disk",
+            blocking { await CheckpointStore.shared.load(second.meta.id) } == nil
+        )
+
+        try? fm.removeItem(at: root)
+        print("  " + String(repeating: "─", count: 62))
+        print(failures == 0 ? "  Changes are attributed correctly\n" : "  \(failures) check(s) FAILED\n")
         exit(failures == 0 ? 0 : 1)
     }
 

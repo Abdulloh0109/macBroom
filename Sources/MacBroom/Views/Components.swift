@@ -15,22 +15,29 @@ enum Palette {
 }
 
 /// Ring showing how full the startup volume is.
+///
+/// Laid out sideways rather than as a tall stack: the sidebar has thirteen screens
+/// to list above it, and a 92pt ring with captions underneath pushed the last two
+/// below the fold — where macOS's hidden scroll bars made them look absent.
 struct DiskGauge: View {
     let disk: DiskInfo
     @EnvironmentObject private var i18n: I18n
 
     var body: some View {
-        VStack(spacing: 10) {
+        HStack(spacing: 11) {
             ZStack {
                 Circle()
-                    .stroke(Color.primary.opacity(0.08), lineWidth: 8)
+                    .stroke(Color.primary.opacity(0.08), lineWidth: 7)
                 Circle()
                     .trim(from: 0, to: max(0.01, disk.usedFraction))
-                    .stroke(Palette.gradient, style: StrokeStyle(lineWidth: 8, lineCap: .round))
+                    .stroke(Palette.gradient, style: StrokeStyle(lineWidth: 7, lineCap: .round))
                     .rotationEffect(.degrees(-90))
                     .animation(.easeOut(duration: 0.6), value: disk.usedFraction)
+            }
+            .frame(width: 46, height: 46)
 
-                VStack(spacing: 1) {
+            VStack(alignment: .leading, spacing: 2) {
+                HStack(alignment: .firstTextBaseline, spacing: 4) {
                     Text(Format.bytes(disk.available))
                         .font(.system(size: 15, weight: .semibold, design: .rounded))
                         .monospacedDigit()
@@ -38,21 +45,22 @@ struct DiskGauge: View {
                         .font(.system(size: 9))
                         .foregroundStyle(.secondary)
                 }
-            }
-            .frame(width: 92, height: 92)
-
-            VStack(spacing: 2) {
                 Text(i18n.t(S.diskUsed(Format.bytes(disk.used), Format.bytes(disk.total))))
-                    .font(.system(size: 10))
+                    .font(.system(size: 9))
                     .foregroundStyle(.secondary)
-                if disk.purgeable > 1_000_000_000 {
-                    Text(i18n.t(S.purgeableHint(Format.bytes(disk.purgeable))))
-                        .font(.system(size: 9))
-                        .foregroundStyle(.tertiary)
-                }
+                    .lineLimit(2)
+                    .fixedSize(horizontal: false, vertical: true)
             }
-            .multilineTextAlignment(.center)
+            Spacer(minLength: 0)
         }
+        .padding(.horizontal, 14)
+        // The purgeable figure is the kind of thing that raises a question when it is
+        // on screen permanently, so it waits for the pointer instead.
+        .help(
+            disk.purgeable > 1_000_000_000
+                ? i18n.t(S.purgeableHint(Format.bytes(disk.purgeable)))
+                : i18n.t(S.diskUsed(Format.bytes(disk.used), Format.bytes(disk.total)))
+        )
     }
 }
 

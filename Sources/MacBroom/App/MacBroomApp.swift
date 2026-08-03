@@ -15,7 +15,10 @@ struct MacBroomApp: App {
         WindowGroup("MacBroom") {
             RootView().environmentObject(i18n)
         }
-        .defaultSize(width: 1020, height: 680)
+        // Tall enough that all thirteen screens are in the sidebar without scrolling:
+        // at 680 the last two sat below the fold, and macOS hides the scroll bar
+        // until the pointer moves, so they looked as if they did not exist.
+        .defaultSize(width: 1020, height: 780)
         .windowToolbarStyle(.unified(showsTitle: true))
         .commands {
             CommandGroup(replacing: .newItem) {}

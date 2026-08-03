@@ -35,6 +35,7 @@ Interfeys **o'zbek, ingliz, rus, turk, nemis, ispan, fransuz va xitoy** tillarid
 | Bo'lim                    | Nima qiladi                                                                                           |
 | ------------------------- | ----------------------------------------------------------------------------------------------------- |
 | **Nima o'syapti** | Diskni jonli kuzatadi: qaysi papka hozir joy yeyayotganini ko'rsatadi. Bunday tozalagich topilmadi |
+| **Nima o'zgardi** | Ikki o'lchov orasidagi farq: "o'tgan haftadan beri `.build` 98 MB o'sdi". Odatiy tozalagichlarda yo'q |
 | **Tarix** | MacBroom o'chirgan hamma narsa asl yo'li bilan — va uni qaytarish tugmasi. Hech bir raqobatchida yo'q |
 | **Tizim holati** | Protsessor, xotira, batareya, Wi-Fi va ulangan qurilmalar — jonli, har 2 soniyada |
 | **Tizim ma'lumotlari** | Uy papkasidan tashqaridagi gigabaytlar va purgeable joyni tushuntiradi — boshqalar buni sir qoldiradi |
@@ -180,7 +181,61 @@ barobar katta yuza egallaydi.
 Butun uy papkasi (100 mingdan ortiq fayl) **~20 soniyada** o'lchanadi. Bitta o'tishda
 butun daraxt tuziladi, shuning uchun keyin katakdan katakka kirish bir zumda bo'ladi.
 
-### 4. Katta va eski fayllar
+### 4. Tizim ma'lumotlari
+
+![Tizim ma'lumotlari](docs/uz-system-data.png)
+
+macOS "System Data" deb atagan, hech kim tushuntirmaydigan gigabaytlarni nomlab
+beradi: simulyatorlar, Xcode vositalari, uyqu tasviri (`/private/var/vm`), Homebrew,
+tizim keshlari, Time Machine suratlari.
+
+Ba'zilarini MacBroom o'zi o'chirmaydi — o'rniga to'g'ri buyruqni beradi (nusxa olish
+tugmasi bilan), masalan `xcrun simctl delete unavailable`. **Purgeable** — macOS
+"kerak bo'lsa bo'shataman" degan joy; u bo'sh joy emas, shuning uchun halqada
+hisoblanmaydi.
+
+---
+
+### 5. Nima o'syapti
+
+![Nima o'syapti](docs/uz-growth.png)
+
+Papkani tanlab **Kuzatishni boshlash** ni bosasiz. Dastur FSEvents orqali diskni jonli
+kuzatadi: yuqorida bo'sh joy qanchaga o'zgargani, pastda esa uni tushuntiruvchi
+papkalar. Build, Docker, npm — nimadir diskni yeyayotganini shu zahoti ko'rsatadi.
+
+> O'zgartirilayotgani birinchi marta ko'rilgan faylning avvalgi hajmi noma'lum, shuning
+> uchun u o'sish deb hisoblanmaydi — taxmin qilsa raqam oshib ketardi. Yangi va
+> o'chirilgan fayllar to'liq hisoblanadi.
+
+---
+
+### 6. Nima o'zgardi
+
+![Nima o'zgardi](docs/uz-changes.png)
+
+**Hozirgi holatni saqlash** papkalar hajmini o'lchab, kichik fayl qilib saqlaydi (uy
+papkasi uchun ~140 KB). Keyingi holatdan ayirilganda "o'tgan haftadan beri nima o'sdi"
+degan savolga aniq javob chiqadi.
+
+Rasmda bitta `swift build` dan oldin va keyin olingan ikki holat: **+98,7 MB**, va
+o'sish aynan `ModuleCache`, `MacBroom.build`, `MacBroom.dSYM` ga yozilgan.
+
+Har bir papkaga **faqat o'zi keltirgan o'zgarish** yoziladi: 3 GB o'sgan build papkasi
+bir marta ko'rinadi, undan yuqoridagi papkalarda qayta hisoblanmaydi. Shu sababli
+ro'yxatdagi raqamlar yig'indisi umumiy o'zgarishga teng.
+
+Holatni terminaldan ham olish mumkin, ya'ni uni jadvalga qo'yib haftada bir o'lchab
+turish mumkin:
+
+```bash
+MacBroom --checkpoint    # hozirgi holatni saqlash
+MacBroom --changes       # oxirgi ikkitasining farqi
+```
+
+---
+
+### 7. Katta va eski fayllar
 
 ![Katta va eski fayllar](docs/uz-large-files.png)
 
@@ -190,7 +245,7 @@ Papkani va eng kichik hajmni tanlaysiz, natijalar topilgani sari chiqaveradi.
 `~/Documents` da emas, `~/.android` (emulyator obrazlari), `~/.cache`, `~/.docker`
 kabi nuqta bilan boshlanadigan papkalarda yotadi.
 
-### 5. Loyihalar
+### 8. Loyihalar
 
 ![Loyihalar](docs/uz-projects.png)
 
@@ -215,7 +270,7 @@ olinadi — `package.json`, `Cargo.toml`, `Podfile`, `go.mod` kabi fayl. Shuning
 **Faqat 3 oy tegilmaganlari** belgisi — ancha vaqtdan beri ishlatilmagan loyihalarni
 qoldiradi, o'chirishga eng arziydiganlari o'shalar.
 
-### 6. O'rnatilgan ilovalar
+### 9. O'rnatilgan ilovalar
 
 ![O'rnatilgan ilovalar](docs/uz-apps.png)
 
@@ -234,7 +289,7 @@ sozlamalarini qoldirib ketasiz.
 
 macOS tizim ilovalari qulf belgisi bilan ko'rsatiladi, ularni o'chirib bo'lmaydi.
 
-### 7. Yashirin ilovalar
+### 10. Yashirin ilovalar
 
 ![Yashirin ilovalar](docs/uz-hidden.png)
 
@@ -247,7 +302,7 @@ Nima uchun kerak? Bu ilovalar ko'zga tashlanmaydi. Masalan bitta mashinada
 **ikkita Docker** topilgan — 4.82.0 va 4.84.0, ikkalasi ham ~2,2 GB. Biri eskirgan
 nusxa, oddiy usulda uni hech qachon sezmagan bo'lardingiz.
 
-### 8. Fonda ishlayotganlar
+### 11. Fonda ishlayotganlar
 
 ![Fonda ishlayotganlar](docs/uz-processes.png)
 
@@ -263,7 +318,7 @@ Muhim jihati: `npm run web`, `node`, `python -m http.server` kabi terminaldan is
 tushirilgan dasturlar macOS uchun "ilova" hisoblanmaydi va odatdagi ro'yxatlarda
 ko'rinmaydi. MacBroom port band qilgan har bir jarayonni alohida qo'shib chiqadi.
 
-### 9. Avtomatik xizmatlar
+### 12. Avtomatik xizmatlar
 
 ![Avtomatik xizmatlar](docs/uz-services.png)
 
@@ -281,6 +336,24 @@ bilan xizmatni to'xtatadi, keyin `.plist` faylini Savatga tashlaydi.
 
 Odatda bu yerda Google Updater, Adobe, Dropbox kabi dasturlarning yangilanish
 tekshirgichlari turadi — ular doim fonda ishlab, batareyani yeydi.
+
+---
+
+### 13. Tarix
+
+![Tarix](docs/uz-history.png)
+
+MacBroom o'chirgan hamma narsa: qachon, qaysi bo'limdan, qancha joy bo'shagani va
+**asl yo'li**. Har bir qator yonida **Qaytarish** tugmasi bor — fayl Savatdan aynan
+o'zi turgan joyga qaytadi. Bu ishlaydi, chunki o'chirishda `trashItem` Savatdagi
+manzilni qaytaradi va MacBroom shu manzilni yozib qo'yadi.
+
+Savatni bo'shatgan bo'lsangiz, qator "butunlay o'chirilgan" deb belgilanadi — yolg'on
+umid berilmaydi.
+
+> Savatdan chiqarish — macOS himoyalagan amal. Ad-hoc imzoli dasturga macOS ba'zan
+> ruxsat ham so'ramaydi; o'sha holatda **Savatda ko'rsatish** tugmasi bosiladi va
+> faylni Finder'da o'zingiz qaytarasiz.
 
 ---
 
@@ -357,7 +430,10 @@ MacBroom --scan          # o'zbekcha hisobot
 MacBroom --scan --lang ru # ru/tr/de/es/fr/zh/en/uz
 MacBroom --scan --json   # boshqa dastur uchun JSON
 MacBroom --map ~         # disk xaritasi, matn ko'rinishida
+MacBroom --checkpoint    # papka hajmlarini saqlab qo'yish
+MacBroom --changes       # oxirgi ikki holat orasidagi farq
 MacBroom --selftest      # xavfsizlik tekshiruvi
+MacBroom --difftest      # o'zgarish hisobini tekshirish
 ```
 
 Natijasi:

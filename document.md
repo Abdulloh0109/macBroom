@@ -13,15 +13,20 @@ Swift + SwiftUI'da yozilgan, hech qanday tashqi kutubxona ishlatmaydi, hajmi 2.7
 2. [Tavsiya belgilari — nimaga tegish mumkin](#2-tavsiya-belgilari)
 3. [Aqlli tekshiruv](#3-aqlli-tekshiruv) — kesh va keraksiz fayllarni tozalash
 4. [Disk xaritasi](#4-disk-xaritasi) — joy qayerga ketgan
-5. [Katta va eski fayllar](#5-katta-va-eski-fayllar)
-6. [Loyihalar](#6-loyihalar) — node_modules, build, Pods
-7. [O'rnatilgan ilovalar](#7-ornatilgan-ilovalar)
-8. [Yashirin ilovalar](#8-yashirin-ilovalar)
-9. [Fonda ishlayotganlar](#9-fonda-ishlayotganlar)
-10. [Avtomatik xizmatlar](#10-avtomatik-xizmatlar)
-11. [Xavfsizlik — nima uchun buzib qo'ymaydi](#11-xavfsizlik)
-12. [Terminal rejimi](#12-terminal-rejimi)
-13. [Tez-tez beriladigan savollar](#13-savollar)
+5. [Tizim holati](#5-tizim-holati) — protsessor, xotira, batareya, Wi-Fi
+6. [Tizim ma'lumotlari](#6-tizim-malumotlari) — uy papkasidan tashqaridagi joy
+7. [Nima o'syapti](#7-nima-osyapti) — jonli kuzatuv
+8. [Nima o'zgardi](#8-nima-ozgardi) — o'tgan haftadan beri nima o'sdi
+9. [Katta va eski fayllar](#9-katta-va-eski-fayllar)
+10. [Loyihalar](#10-loyihalar) — node_modules, build, Pods
+11. [O'rnatilgan ilovalar](#11-ornatilgan-ilovalar)
+12. [Yashirin ilovalar](#12-yashirin-ilovalar)
+13. [Fonda ishlayotganlar](#13-fonda-ishlayotganlar)
+14. [Avtomatik xizmatlar](#14-avtomatik-xizmatlar)
+15. [Tarix](#15-tarix) — o'chirilganni qaytarish
+16. [Xavfsizlik — nima uchun buzib qo'ymaydi](#16-xavfsizlik)
+17. [Terminal rejimi](#17-terminal-rejimi)
+18. [Tez-tez beriladigan savollar](#18-savollar)
 
 ---
 
@@ -46,7 +51,7 @@ interfeys o'zgaradi, dasturni qayta ochish shart emas. Birinchi ochilishda dastu
 tizim tilini tanlaydi, mos til topilmasa o'zbekcha bo'ladi.
 
 **Chap pastdagi halqa** haqiqiy bo'sh joyni ko'rsatadi — `df` buyrug'i bilan bir xil raqam.
-Tagida esa alohida yozuv turadi: *"+84,88 GB ni macOS kerak bo'lganda bo'shatadi"*. Bu
+Tagida esa alohida yozuv turadi: _"+84,88 GB ni macOS kerak bo'lganda bo'shatadi"_. Bu
 "purgeable" deb ataladigan joy — kesh va iCloud'ga yuklab yuborilishi mumkin bo'lgan
 fayllar. macOS ba'zi joylarda uni bo'sh joy sifatida ko'rsatadi, lekin u hali sizniki emas,
 shuning uchun MacBroom ikkalasini aralashtirmaydi.
@@ -64,14 +69,14 @@ Ikonkani ham yasab olmoqchi bo'lsangiz (ixtiyoriy):
 Dastur "mana shu narsalar bor" deb qo'ya qolmaydi — har birining yoniga **nima qilish
 kerakligini** yozib qo'yadi. To'rtta belgi bor:
 
-| Belgi | Rangi | Ma'nosi |
-| --- | --- | --- |
-| **O'chirish mumkin** | ko'k-yashil | Buni hech kim ishlatmayapti, bemalol o'chiring |
-| **Ortiqcha** | sariq | Buni ochgan ilova allaqachon yopilgan — birinchi navbatda shuni tozalang |
-| **Ishlatilmoqda** | yashil | Hozir kimdir ishlatyapti — tegmang |
-| **Tegmang** | kulrang | macOS'ga kerak. Yopsangiz ham o'zi qaytadan ishga tushadi |
+| Belgi                | Rangi       | Ma'nosi                                                                  |
+| -------------------- | ----------- | ------------------------------------------------------------------------ |
+| **O'chirish mumkin** | ko'k-yashil | Buni hech kim ishlatmayapti, bemalol o'chiring                           |
+| **Ortiqcha**         | sariq       | Buni ochgan ilova allaqachon yopilgan — birinchi navbatda shuni tozalang |
+| **Ishlatilmoqda**    | yashil      | Hozir kimdir ishlatyapti — tegmang                                       |
+| **Tegmang**          | kulrang     | macOS'ga kerak. Yopsangiz ham o'zi qaytadan ishga tushadi                |
 
-**Tegmang** belgisi turgan qatorda *Yopish* tugmasi umuman bosilmaydi — xato bosib
+**Tegmang** belgisi turgan qatorda _Yopish_ tugmasi umuman bosilmaydi — xato bosib
 qo'yishning iloji yo'q.
 
 ### Port belgisi
@@ -165,7 +170,80 @@ katakka kirish bir zumda bo'ladi — qayta o'lchash kerak emas.
 
 ---
 
-## 5. Katta va eski fayllar
+## 5. Tizim holati
+
+![Tizim holati](docs/uz-system.png)
+
+Mac hozir qanday ishlayotganini bir ekranda, har ikki soniyada yangilab turadi:
+protsessor yuki, xotira (svop bilan), batareya holati va sikl soni, Wi-Fi signali va
+tezligi, ulangan ekran/USB/Bluetooth qurilmalari, va "Bu Mac" ma'lumotlari.
+
+Xotiraga baho **svop hajmiga** qarab beriladi, "band" raqamiga qarab emas: macOS'da
+band xotira ko'p bo'lishi normal, svop ko'p bo'lishi esa yetishmayotganini bildiradi.
+
+---
+
+## 6. Tizim ma'lumotlari
+
+![Tizim ma'lumotlari](docs/uz-system-data.png)
+
+macOS "System Data" deb atagan gigabaytlarni nomlab beradi: simulyatorlar, Xcode
+vositalari, uyqu tasviri, Homebrew, tizim keshlari, Time Machine suratlari.
+
+Ba'zilarini dastur o'zi o'chirmaydi — to'g'ri buyruqni nusxa olish tugmasi bilan
+beradi (`xcrun simctl delete unavailable` kabi), chunki bunday narsalarni o'z vositasi
+orqali o'chirish kerak.
+
+---
+
+## 7. Nima o'syapti
+
+![Nima o'syapti](docs/uz-growth.png)
+
+Papkani tanlab **Kuzatishni boshlash**. FSEvents orqali disk jonli kuzatiladi: yuqorida
+bo'sh joy o'zgarishi, pastda uni tushuntiruvchi papkalar ro'yxati va har birida qancha
+hodisa bo'lgani.
+
+Nima uchun kerak: build yoki Docker diskni yeyayotganini sezasiz, lekin qaysi papka
+ekanini bilmaysiz — bu ekran shuni real vaqtda aytadi.
+
+Hisob ataylab ehtiyotkor: o'zgartirilayotgani birinchi marta ko'rilgan faylning avvalgi
+hajmi noma'lum, shuning uchun u o'sish deb hisoblanmaydi. Yangi va o'chirilgan fayllar
+to'liq hisoblanadi.
+
+---
+
+## 8. Nima o'zgardi
+
+![Nima o'zgardi](docs/uz-changes.png)
+
+**Hozirgi holatni saqlash** — papkalar hajmi o'lchanib, kichik faylga yozib qo'yiladi
+(uy papkasi uchun ~140 KB, 12 tagacha saqlanadi). Ikkinchi holat olinganda ikkisi
+ayiriladi.
+
+Rasmda bitta `swift build` dan oldin va keyin olingan holatlar: **+98,7 MB**, va o'sish
+aynan `ModuleCache`, `MacBroom.build`, `MacBroom.dSYM` ga yozilgan. `du -sh .build`
+ham 94 MiB deydi — bir xil raqam.
+
+**Ikki marta hisoblash yo'q.** Har bir papkaga faqat o'zi keltirgan o'zgarish yoziladi:
+100 MB o'sgan `deep/a/b` papkasi bir marta ko'rinadi, ustidagi to'rt papkada qayta
+hisoblanmaydi (aks holda 100 MB yozilganda 500 MB o'sish ko'rsatilardi). Ro'yxatga
+tushmaydigan mayda o'zgarishlar "tarqoq" bo'lib qo'shiladi, shuning uchun
+qatorlar + tarqoq = umumiy o'zgarish.
+
+Ikki holat boshqa-boshqa papkalarni o'lchagan bo'lsa, dastur ularni ayirmaydi —
+bunday farq o'ylab chiqarilgan raqam bo'lardi.
+
+Terminaldan ham ishlaydi, ya'ni jadvalga qo'yib haftada bir o'lchash mumkin:
+
+```bash
+MacBroom --checkpoint    # hozirgi holatni saqlash
+MacBroom --changes       # oxirgi ikkitasining farqi
+```
+
+---
+
+## 9. Katta va eski fayllar
 
 ![Katta va eski fayllar](docs/uz-large-files.png)
 
@@ -188,7 +266,7 @@ Fayllarni belgilab **Savatga tashlash** ni bosasiz — yana o'sha qoida, hammasi
 
 ---
 
-## 6. Loyihalar
+## 10. Loyihalar
 
 ![Loyihalar](docs/uz-projects.png)
 
@@ -197,16 +275,16 @@ Bu bo'lim ularni barcha loyihalar bo'ylab topib, loyiha bo'yicha guruhlaydi.
 
 Nimalarni taniydi:
 
-| Papka | Turi | Qanday qaytadi |
-| --- | --- | --- |
-| `node_modules` | kutubxonalar | `npm install` |
-| `dist`, `build`, `out`, `.next`, `.nuxt`, `.turbo`, `coverage` | yig'ish natijasi | `npm run build` |
-| `Pods` | CocoaPods | `pod install` |
-| `.gradle` | Gradle keshi | `./gradlew build` |
-| `target` | Rust/Java | `cargo build` |
-| `.venv`, `venv`, `__pycache__` | Python | `pip install -r requirements.txt` |
-| `vendor` | PHP/Go | `composer install` |
-| `DerivedData` | Xcode | Xcode qayta yig'adi |
+| Papka                                                          | Turi             | Qanday qaytadi                    |
+| -------------------------------------------------------------- | ---------------- | --------------------------------- |
+| `node_modules`                                                 | kutubxonalar     | `npm install`                     |
+| `dist`, `build`, `out`, `.next`, `.nuxt`, `.turbo`, `coverage` | yig'ish natijasi | `npm run build`                   |
+| `Pods`                                                         | CocoaPods        | `pod install`                     |
+| `.gradle`                                                      | Gradle keshi     | `./gradlew build`                 |
+| `target`                                                       | Rust/Java        | `cargo build`                     |
+| `.venv`, `venv`, `__pycache__`                                 | Python           | `pip install -r requirements.txt` |
+| `vendor`                                                       | PHP/Go           | `composer install`                |
+| `DerivedData`                                                  | Xcode            | Xcode qayta yig'adi               |
 
 **Xavfsizlik qoidasi.** Papka faqat **yonida loyiha belgisi turgan bo'lsa** hisobga
 olinadi — ya'ni `package.json`, `Cargo.toml`, `Podfile`, `go.mod` kabi fayl. Shuning
@@ -222,7 +300,7 @@ Har bir qatorning o'ng tomonida uni qanday qaytarish yozib qo'yilgan, shuning uc
 
 ---
 
-## 7. O'rnatilgan ilovalar
+## 11. O'rnatilgan ilovalar
 
 ![O'rnatilgan ilovalar](docs/uz-apps.png)
 
@@ -254,7 +332,7 @@ sozlamalarini qoldirib ketishingiz mumkin.
 
 ---
 
-## 8. Yashirin ilovalar
+## 12. Yashirin ilovalar
 
 ![Yashirin ilovalar](docs/uz-hidden.png)
 
@@ -274,7 +352,7 @@ ko'rasiz, birdaniga Savatga tashlaysiz.
 
 ---
 
-## 9. Fonda ishlayotganlar
+## 13. Fonda ishlayotganlar
 
 ![Fonda ishlayotganlar](docs/uz-processes.png)
 
@@ -285,22 +363,22 @@ Yuqorida umumiy son va umumiy xotira ko'rinadi.
   ko'rsatadi. Belgini olsangiz ochiq turgan oddiy ilovalar ham qo'shiladi.
 - **Xotira** raqami — Activity Monitor'dagi "Memory" ustuni bilan bir xil
   (`phys_footprint`).
-- **Belgilar** — har bir qatorda *O'chirish mumkin / Ortiqcha / Ishlatilmoqda / Tegmang*
+- **Belgilar** — har bir qatorda _O'chirish mumkin / Ortiqcha / Ishlatilmoqda / Tegmang_
   turadi ([2-bo'limga qarang](#2-tavsiya-belgilari)). Port band qilganlarida ustiga
   yashil `5173-port` kabi belgi qo'shiladi.
 - **Yopish** — dasturga odatdagidek yopilishni aytadi (ilovalarga `terminate`,
   oddiy jarayonlarga `SIGTERM`). Bu majburiy to'xtatish emas, saqlanmagan ishingiz
-  yo'qolmaydi. *Tegmang* belgisi turganda tugma bosilmaydi.
+  yo'qolmaydi. _Tegmang_ belgisi turganda tugma bosilmaydi.
 
 Yuqoridagi rasmda amaliy misol ko'rinib turibdi:
 
 - **Code Helper (Plugin)** — 584 MB, `11294, 59582-port`. VS Code oynasini yopgansiz,
-  lekin yordamchisi hamon ishlab turibdi. *Ishlatilmoqda* deb belgilangan, chunki
+  lekin yordamchisi hamon ishlab turibdi. _Ishlatilmoqda_ deb belgilangan, chunki
   portlari ochiq — demak biror narsa unga ulangan bo'lishi mumkin.
 - **node** — `5173-port` va `3000-port`. Dev-serverlaringiz. Tegmaslik kerak.
 - **npm exec @playwright/mcp** — uchta nusxa, jami ~300 MB, hech qanday porti yo'q,
-  ochgan dasturi yopilgan. *Ortiqcha* — yopsangiz bo'ladi.
-- **Spotlight, Control Center, loginwindow** — *Tegmang*, tugmasi ham o'chiq.
+  ochgan dasturi yopilgan. _Ortiqcha_ — yopsangiz bo'ladi.
+- **Spotlight, Control Center, loginwindow** — _Tegmang_, tugmasi ham o'chiq.
 
 Bu ekranning foydasi: unutilgan jarayonlarni topish. Masalan bu Mac'da to'rtta
 ortib qolgan `npm exec @playwright/mcp` jarayoni bor edi — hammasi bo'lib ~500 MB
@@ -312,7 +390,7 @@ xotira, hech kimga kerak emas.
 
 ---
 
-## 10. Avtomatik xizmatlar
+## 14. Avtomatik xizmatlar
 
 ![Avtomatik xizmatlar](docs/uz-services.png)
 
@@ -346,7 +424,26 @@ tekshirgichlari turadi. Ular doim fonda ishlab, batareyani yeydi.
 
 ---
 
-## 11. Xavfsizlik
+## 15. Tarix
+
+![Tarix](docs/uz-history.png)
+
+MacBroom o'chirgan hamma narsa shu yerda: qachon, qaysi bo'limdan, qancha joy
+bo'shagani va **asl yo'li**. Har bir qator yonida **Qaytarish** tugmasi — fayl Savatdan
+aynan o'zi turgan joyga qaytadi.
+
+Bu ishlaydi, chunki o'chirishda `trashItem` Savatdagi manzilni qaytaradi va MacBroom
+shu manzilni yozib qo'yadi. Savat bo'shatilgan bo'lsa, qator "butunlay o'chirilgan" deb
+belgilanadi.
+
+> Savatdan chiqarish — macOS himoyalagan amal. Ad-hoc imzoli dasturga macOS ba'zan
+> ruxsat so'ramaydi ham; o'sha holatda **Savatda ko'rsatish** tugmasi bosiladi va faylni
+> Finder'da o'zingiz qaytarasiz. **To'liq disk ruxsati** tugmasi kerakli sozlamani
+> ochib beradi.
+
+---
+
+## 16. Xavfsizlik
 
 Fayl o'chiradigan dasturda eng muhimi shu. To'rtta qoida bor:
 
@@ -381,7 +478,7 @@ ularni faqat siz qo'lda tanlaysiz.
 
 ---
 
-## 12. Terminal rejimi
+## 17. Terminal rejimi
 
 Dastur oynasiz ham ishlaydi. Bu rejimda **hech narsa o'chirmaydi**, faqat hisobot beradi:
 
@@ -390,7 +487,10 @@ MacBroom --scan          # o'zbekcha hisobot
 MacBroom --scan --lang ru # ru/tr/de/es/fr/zh/en/uz
 MacBroom --scan --json   # dastur uchun JSON
 MacBroom --map ~         # disk xaritasi, matn ko'rinishida
+MacBroom --checkpoint    # papka hajmlarini saqlab qo'yish
+MacBroom --changes       # oxirgi ikki holat orasidagi farq
 MacBroom --selftest      # xavfsizlik tekshiruvi
+MacBroom --difftest      # o'zgarish hisobini tekshirish
 ```
 
 Natijasi:
@@ -412,7 +512,7 @@ Natijasi:
 
 ---
 
-## 13. Savollar
+## 18. Savollar
 
 **Bir marta tozalasam, qancha joy bo'shaydi?**
 Bu Mac'da birinchi tekshiruvda 19,6 GB chiqdi. Ko'p qismi dasturchi keshi
