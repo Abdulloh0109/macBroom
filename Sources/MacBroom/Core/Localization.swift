@@ -1260,4 +1260,218 @@ enum S {
             .fr: "Récupérable : \(size)", .zh: "可释放：\(size)",
         ])
     }
+
+    // System monitor
+    static let system = T([
+        .en: "System", .uz: "Tizim holati", .ru: "Система", .tr: "Sistem",
+        .de: "System", .es: "Sistema", .fr: "Système", .zh: "系统状态",
+    ])
+    static let systemIntro = T([
+        .en: "How your Mac is doing right now — updated every two seconds.",
+        .uz: "Mac hozir qanday ishlayapti — har ikki soniyada yangilanadi.",
+        .ru: "Как сейчас чувствует себя ваш Mac — обновляется каждые две секунды.",
+        .tr: "Mac'iniz şu anda nasıl — iki saniyede bir güncellenir.",
+        .de: "Wie es Ihrem Mac gerade geht — alle zwei Sekunden aktualisiert.",
+        .es: "Cómo va tu Mac ahora mismo: se actualiza cada dos segundos.",
+        .fr: "L'état de votre Mac en direct — actualisé toutes les deux secondes.",
+        .zh: "你的 Mac 当前状态 — 每两秒刷新一次。",
+    ])
+    static let cpuLoad = T([
+        .en: "Processor", .uz: "Protsessor", .ru: "Процессор", .tr: "İşlemci",
+        .de: "Prozessor", .es: "Procesador", .fr: "Processeur", .zh: "处理器",
+    ])
+    static let memoryTitle = T([
+        .en: "Memory", .uz: "Xotira", .ru: "Память", .tr: "Bellek",
+        .de: "Arbeitsspeicher", .es: "Memoria", .fr: "Mémoire", .zh: "内存",
+    ])
+    static let batteryTitle = T([
+        .en: "Battery", .uz: "Batareya", .ru: "Аккумулятор", .tr: "Pil",
+        .de: "Batterie", .es: "Batería", .fr: "Batterie", .zh: "电池",
+    ])
+    static let networkTitle = T([
+        .en: "Wi-Fi", .uz: "Wi-Fi", .ru: "Wi-Fi", .tr: "Wi-Fi",
+        .de: "WLAN", .es: "Wi-Fi", .fr: "Wi-Fi", .zh: "无线网络",
+    ])
+    static let devicesTitle = T([
+        .en: "Connected devices", .uz: "Ulangan qurilmalar", .ru: "Подключённые устройства",
+        .tr: "Bağlı aygıtlar", .de: "Verbundene Geräte", .es: "Dispositivos conectados",
+        .fr: "Appareils connectés", .zh: "已连接设备",
+    ])
+    static let aboutTitle = T([
+        .en: "This Mac", .uz: "Bu Mac", .ru: "Об этом Mac", .tr: "Bu Mac",
+        .de: "Über diesen Mac", .es: "Acerca de este Mac", .fr: "À propos de ce Mac",
+        .zh: "关于本机",
+    ])
+    static let userLabel = T([
+        .en: "apps", .uz: "ilovalar", .ru: "программы", .tr: "uygulamalar",
+        .de: "Apps", .es: "apps", .fr: "apps", .zh: "应用",
+    ])
+    static let systemLabel = T([
+        .en: "system", .uz: "tizim", .ru: "система", .tr: "sistem",
+        .de: "System", .es: "sistema", .fr: "système", .zh: "系统",
+    ])
+    static let idleLabel = T([
+        .en: "idle", .uz: "bo'sh", .ru: "простой", .tr: "boşta",
+        .de: "Leerlauf", .es: "inactivo", .fr: "inactif", .zh: "空闲",
+    ])
+    static let wiredLabel = T([
+        .en: "wired", .uz: "band qilingan", .ru: "закреплено", .tr: "sabit",
+        .de: "reserviert", .es: "reservada", .fr: "réservée", .zh: "联动内存",
+    ])
+    static let compressedLabel = T([
+        .en: "compressed", .uz: "siqilgan", .ru: "сжато", .tr: "sıkıştırılmış",
+        .de: "komprimiert", .es: "comprimida", .fr: "compressée", .zh: "已压缩",
+    ])
+    static let cachedLabel = T([
+        .en: "cached files", .uz: "keshlangan fayllar", .ru: "кэш файлов",
+        .tr: "önbellek dosyaları", .de: "Dateicache", .es: "archivos en caché",
+        .fr: "fichiers en cache", .zh: "缓存文件",
+    ])
+    static let swapLabel = T([
+        .en: "swap", .uz: "svop", .ru: "подкачка", .tr: "takas",
+        .de: "Auslagerung", .es: "intercambio", .fr: "swap", .zh: "交换空间",
+    ])
+    static let loadAverageLabel = T([
+        .en: "load average", .uz: "o'rtacha yuk", .ru: "средняя нагрузка",
+        .tr: "ortalama yük", .de: "Lastdurchschnitt", .es: "carga media",
+        .fr: "charge moyenne", .zh: "平均负载",
+    ])
+    static let pressureLow = T([
+        .en: "Comfortable", .uz: "Bemalol", .ru: "Свободно", .tr: "Rahat",
+        .de: "Entspannt", .es: "Holgada", .fr: "À l'aise", .zh: "充裕",
+    ])
+    static let pressureMedium = T([
+        .en: "Getting tight", .uz: "Torayib boryapti", .ru: "Становится тесно",
+        .tr: "Daralıyor", .de: "Wird eng", .es: "Ajustada", .fr: "Ça se resserre",
+        .zh: "有点紧张",
+    ])
+    static let pressureHigh = T([
+        .en: "Under pressure", .uz: "Yetishmayapti", .ru: "Не хватает",
+        .tr: "Yetersiz", .de: "Knapp", .es: "Insuficiente", .fr: "Sous pression",
+        .zh: "内存吃紧",
+    ])
+    static let charging = T([
+        .en: "Charging", .uz: "Quvvat olmoqda", .ru: "Заряжается", .tr: "Şarj oluyor",
+        .de: "Wird geladen", .es: "Cargando", .fr: "En charge", .zh: "充电中",
+    ])
+    static let onBattery = T([
+        .en: "On battery", .uz: "Batareyada", .ru: "От аккумулятора", .tr: "Pilde",
+        .de: "Akkubetrieb", .es: "Con batería", .fr: "Sur batterie", .zh: "使用电池",
+    ])
+    static let pluggedIn = T([
+        .en: "Plugged in", .uz: "Tarmoqqa ulangan", .ru: "Питание от сети",
+        .tr: "Fişe takılı", .de: "Am Netzteil", .es: "Enchufado", .fr: "Sur secteur",
+        .zh: "已接电源",
+    ])
+    static let healthLabel = T([
+        .en: "health", .uz: "holati", .ru: "состояние", .tr: "sağlık",
+        .de: "Zustand", .es: "estado", .fr: "état", .zh: "健康度",
+    ])
+    static let cyclesLabel = T([
+        .en: "cycles", .uz: "sikl", .ru: "циклов", .tr: "döngü",
+        .de: "Zyklen", .es: "ciclos", .fr: "cycles", .zh: "循环次数",
+    ])
+    static let noBattery = T([
+        .en: "No battery — this Mac runs on mains power.",
+        .uz: "Batareya yo'q — bu Mac tarmoqdan ishlaydi.",
+        .ru: "Аккумулятора нет — этот Mac работает от сети.",
+        .tr: "Pil yok — bu Mac şebekeden çalışıyor.",
+        .de: "Kein Akku — dieser Mac läuft am Netz.",
+        .es: "Sin batería: este Mac funciona con corriente.",
+        .fr: "Pas de batterie — ce Mac fonctionne sur secteur.",
+        .zh: "无电池 — 此 Mac 使用市电供电。",
+    ])
+    static let signalLabel = T([
+        .en: "signal", .uz: "signal", .ru: "сигнал", .tr: "sinyal",
+        .de: "Signal", .es: "señal", .fr: "signal", .zh: "信号",
+    ])
+    static let speedLabel = T([
+        .en: "link speed", .uz: "ulanish tezligi", .ru: "скорость связи",
+        .tr: "bağlantı hızı", .de: "Verbindungsrate", .es: "velocidad de enlace",
+        .fr: "débit du lien", .zh: "连接速率",
+    ])
+    static let channelLabel = T([
+        .en: "channel", .uz: "kanal", .ru: "канал", .tr: "kanal",
+        .de: "Kanal", .es: "canal", .fr: "canal", .zh: "信道",
+    ])
+    static let ipLabel = T([
+        .en: "IP address", .uz: "IP manzil", .ru: "IP-адрес", .tr: "IP adresi",
+        .de: "IP-Adresse", .es: "dirección IP", .fr: "adresse IP", .zh: "IP 地址",
+    ])
+    static let wifiOff = T([
+        .en: "Wi-Fi is off", .uz: "Wi-Fi o'chirilgan", .ru: "Wi-Fi выключен",
+        .tr: "Wi-Fi kapalı", .de: "WLAN ist aus", .es: "Wi-Fi desactivado",
+        .fr: "Wi-Fi désactivé", .zh: "无线网络已关闭",
+    ])
+    static let ssidHidden = T([
+        .en: "network name hidden by macOS (needs Location access)",
+        .uz: "tarmoq nomini macOS yashirgan (Joylashuv ruxsati kerak)",
+        .ru: "имя сети скрыто macOS (нужен доступ к геопозиции)",
+        .tr: "ağ adını macOS gizliyor (Konum izni gerekir)",
+        .de: "Netzwerkname von macOS verborgen (benötigt Ortungsdienste)",
+        .es: "macOS oculta el nombre de la red (requiere acceso a Localización)",
+        .fr: "nom du réseau masqué par macOS (accès à la Localisation requis)",
+        .zh: "macOS 隐藏了网络名称（需要定位权限）",
+    ])
+    static let noDevices = T([
+        .en: "Nothing connected", .uz: "Ulangan qurilma yo'q", .ru: "Ничего не подключено",
+        .tr: "Bağlı aygıt yok", .de: "Nichts verbunden", .es: "Nada conectado",
+        .fr: "Rien de connecté", .zh: "没有已连接设备",
+    ])
+    static let displaysLabel = T([
+        .en: "Displays", .uz: "Ekranlar", .ru: "Дисплеи", .tr: "Ekranlar",
+        .de: "Bildschirme", .es: "Pantallas", .fr: "Écrans", .zh: "显示器",
+    ])
+    static let usbLabel = T([
+        .en: "USB", .uz: "USB", .ru: "USB", .tr: "USB",
+        .de: "USB", .es: "USB", .fr: "USB", .zh: "USB",
+    ])
+    static let bluetoothLabel = T([
+        .en: "Bluetooth", .uz: "Bluetooth", .ru: "Bluetooth", .tr: "Bluetooth",
+        .de: "Bluetooth", .es: "Bluetooth", .fr: "Bluetooth", .zh: "蓝牙",
+    ])
+    static let modelLabel = T([
+        .en: "Model", .uz: "Model", .ru: "Модель", .tr: "Model",
+        .de: "Modell", .es: "Modelo", .fr: "Modèle", .zh: "型号",
+    ])
+    static let chipLabel = T([
+        .en: "Chip", .uz: "Protsessor", .ru: "Чип", .tr: "Yonga",
+        .de: "Chip", .es: "Chip", .fr: "Puce", .zh: "芯片",
+    ])
+    static let coresLabel = T([
+        .en: "Cores", .uz: "Yadrolar", .ru: "Ядра", .tr: "Çekirdek",
+        .de: "Kerne", .es: "Núcleos", .fr: "Cœurs", .zh: "核心",
+    ])
+    static let osLabel = T([
+        .en: "macOS", .uz: "macOS", .ru: "macOS", .tr: "macOS",
+        .de: "macOS", .es: "macOS", .fr: "macOS", .zh: "macOS",
+    ])
+    static let uptimeLabel = T([
+        .en: "Uptime", .uz: "Ishlab turibdi", .ru: "Время работы", .tr: "Çalışma süresi",
+        .de: "Laufzeit", .es: "Tiempo encendido", .fr: "Temps de fonctionnement",
+        .zh: "已运行",
+    ])
+
+    static func uptimeValue(_ days: Int, _ hours: Int, _ minutes: Int) -> T {
+        T([
+            .en: "\(days)d \(hours)h \(minutes)m",
+            .uz: "\(days) kun \(hours) soat \(minutes) daqiqa",
+            .ru: "\(days) д \(hours) ч \(minutes) мин",
+            .tr: "\(days) gün \(hours) sa \(minutes) dk",
+            .de: "\(days) T \(hours) Std \(minutes) Min",
+            .es: "\(days) d \(hours) h \(minutes) min",
+            .fr: "\(days) j \(hours) h \(minutes) min",
+            .zh: "\(days) 天 \(hours) 小时 \(minutes) 分",
+        ])
+    }
+
+    static func minutesLeft(_ minutes: Int) -> T {
+        let h = minutes / 60, m = minutes % 60
+        return T([
+            .en: "\(h)h \(m)m left", .uz: "\(h) soat \(m) daqiqa qoldi",
+            .ru: "осталось \(h) ч \(m) мин", .tr: "\(h) sa \(m) dk kaldı",
+            .de: "noch \(h) Std \(m) Min", .es: "quedan \(h) h \(m) min",
+            .fr: "\(h) h \(m) min restantes", .zh: "剩余 \(h) 小时 \(m) 分",
+        ])
+    }
 }

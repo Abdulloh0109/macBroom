@@ -115,7 +115,28 @@ o'sha papkalar shunchaki o'tkazib yuboriladi, boshqa muammo bo'lmaydi.
 
 ## Bo'limlar
 
-### 1. Aqlli tekshiruv
+### 1. Tizim holati
+
+![Tizim holati](docs/uz-system.png)
+
+Mac hozir qanday ishlayotganini bir ekranda ko'rsatadi, har ikki soniyada yangilanadi:
+
+- **Protsessor** — umumiy yuk, ilovalar/tizim/bo'sh taqsimoti, o'rtacha yuk (load average)
+- **Xotira** — ilovalar, band qilingan, siqilgan, keshlangan fayllar va **svop**.
+  Baho svop hajmiga qarab beriladi: svop ko'p bo'lsa "Yetishmayapti" deydi, chunki
+  macOS'da "band" raqamining o'zi hech narsani anglatmaydi
+- **Batareya** — foiz, quvvat olayotgani, qolgan vaqt, **holati** (sig'imi yangiligiga
+  nisbatan) va **sikl soni**
+- **Wi-Fi** — signal kuchi (dBm), ulanish tezligi, kanal, IP manzil
+- **Ulangan qurilmalar** — ekranlar, USB va Bluetooth
+- **Bu Mac** — protsessor, yadrolar, model, macOS versiyasi, ishlab turgan vaqti
+
+> Wi-Fi tarmog'ining **nomi** ko'rinmasligi mumkin: macOS 14 dan boshlab SSID'ni
+> ko'rish uchun ilovaga Joylashuv ruxsati kerak. Qolgan raqamlar baribir ko'rinadi.
+
+---
+
+### 2. Aqlli tekshiruv
 
 ![Aqlli tekshiruv](docs/uz-smart-scan.png)
 
@@ -139,7 +160,7 @@ shuning uchun dastur ularni **o'zi tanlamaydi**.
 
 Bo'lim yonidagi `>` ni bosib ichida aynan nima borligini ko'rasiz.
 
-### 2. Disk xaritasi
+### 3. Disk xaritasi
 
 ![Disk xaritasi](docs/uz-disk-map.png)
 
@@ -155,7 +176,7 @@ barobar katta yuza egallaydi.
 Butun uy papkasi (100 mingdan ortiq fayl) **~20 soniyada** o'lchanadi. Bitta o'tishda
 butun daraxt tuziladi, shuning uchun keyin katakdan katakka kirish bir zumda bo'ladi.
 
-### 3. Katta va eski fayllar
+### 4. Katta va eski fayllar
 
 ![Katta va eski fayllar](docs/uz-large-files.png)
 
@@ -165,7 +186,7 @@ Papkani va eng kichik hajmni tanlaysiz, natijalar topilgani sari chiqaveradi.
 `~/Documents` da emas, `~/.android` (emulyator obrazlari), `~/.cache`, `~/.docker`
 kabi nuqta bilan boshlanadigan papkalarda yotadi.
 
-### 4. Loyihalar
+### 5. Loyihalar
 
 ![Loyihalar](docs/uz-projects.png)
 
@@ -190,7 +211,7 @@ olinadi — `package.json`, `Cargo.toml`, `Podfile`, `go.mod` kabi fayl. Shuning
 **Faqat 3 oy tegilmaganlari** belgisi — ancha vaqtdan beri ishlatilmagan loyihalarni
 qoldiradi, o'chirishga eng arziydiganlari o'shalar.
 
-### 5. O'rnatilgan ilovalar
+### 6. O'rnatilgan ilovalar
 
 ![O'rnatilgan ilovalar](docs/uz-apps.png)
 
@@ -209,7 +230,7 @@ sozlamalarini qoldirib ketasiz.
 
 macOS tizim ilovalari qulf belgisi bilan ko'rsatiladi, ularni o'chirib bo'lmaydi.
 
-### 6. Yashirin ilovalar
+### 7. Yashirin ilovalar
 
 ![Yashirin ilovalar](docs/uz-hidden.png)
 
@@ -222,7 +243,7 @@ Nima uchun kerak? Bu ilovalar ko'zga tashlanmaydi. Masalan bitta mashinada
 **ikkita Docker** topilgan — 4.82.0 va 4.84.0, ikkalasi ham ~2,2 GB. Biri eskirgan
 nusxa, oddiy usulda uni hech qachon sezmagan bo'lardingiz.
 
-### 7. Fonda ishlayotganlar
+### 8. Fonda ishlayotganlar
 
 ![Fonda ishlayotganlar](docs/uz-processes.png)
 
@@ -238,7 +259,7 @@ Muhim jihati: `npm run web`, `node`, `python -m http.server` kabi terminaldan is
 tushirilgan dasturlar macOS uchun "ilova" hisoblanmaydi va odatdagi ro'yxatlarda
 ko'rinmaydi. MacBroom port band qilgan har bir jarayonni alohida qo'shib chiqadi.
 
-### 8. Avtomatik xizmatlar
+### 9. Avtomatik xizmatlar
 
 ![Avtomatik xizmatlar](docs/uz-services.png)
 

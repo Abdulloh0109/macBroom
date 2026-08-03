@@ -34,6 +34,7 @@ The interface speaks **Uzbek, English, Russian, Turkish, German, Spanish, French
 
 | Screen                    | What it does                                                                                           |
 | ------------------------- | ------------------------------------------------------------------------------------------------------ |
+| **System** | Processor, memory, battery, Wi-Fi and attached devices — live, refreshed every 2 s |
 | **Smart Scan**            | Finds caches, logs, developer build junk, Trash and stale installers, and clears them in one pass      |
 | **Disk Map**              | Draws every folder as a box sized to its contents — where the space went, at a glance                  |
 | **Large & Old Files**     | Walks any folder for files above a size threshold, hidden folders included                             |
@@ -113,7 +114,28 @@ skipped; nothing else breaks.
 
 ## The screens
 
-### 1. Smart Scan
+### 1. System
+
+![System](docs/uz-system.png)
+
+Everything about how the Mac is doing right now, refreshed every two seconds:
+
+- **Processor** — total load, the app/system/idle split, and the load average
+- **Memory** — app, wired, compressed and cached, plus **swap**. The verdict is driven
+  by swap rather than by the "used" figure, because a high used figure is normal and
+  healthy on macOS while swap is the honest sign that RAM is short
+- **Battery** — charge, charging state, time remaining, **health** (capacity against
+  new) and **cycle count**
+- **Wi-Fi** — signal strength in dBm, link rate, channel, IP address
+- **Connected devices** — displays, USB and Bluetooth
+- **This Mac** — chip, cores, model, macOS version, uptime
+
+> The Wi-Fi **network name** may be missing: since macOS 14 an app needs Location
+> access to read the SSID. Every other figure is still shown.
+
+---
+
+### 2. Smart Scan
 
 Press **Scan** and it goes through:
 
@@ -133,7 +155,7 @@ A green **Safe** badge means the files come back by themselves. An amber **Check
 badge means it might be a backup or something you downloaded on purpose — those are
 **never pre-selected**.
 
-### 2. Disk Map
+### 3. Disk Map
 
 ![Disk Map](docs/uz-disk-map.png)
 
@@ -148,7 +170,7 @@ proportional to the folder's size — twice the bytes, twice the area.
 A whole home folder (100k+ files) is measured in **~20 seconds**. The tree is built
 in a single pass, so moving between boxes afterwards is instant.
 
-### 3. Large & Old Files
+### 4. Large & Old Files
 
 ![Large & Old Files](docs/uz-large-files.png)
 
@@ -157,7 +179,7 @@ Pick a folder and a size threshold; results stream in as they are found.
 **Hidden folders are included**, which matters: the biggest files usually sit in
 `~/.android` (emulator images), `~/.cache` or `~/.docker`, not in `~/Documents`.
 
-### 4. Developer Projects
+### 5. Developer Projects
 
 ![Developer Projects](docs/uz-projects.png)
 
@@ -182,7 +204,7 @@ screen finds them across every project and groups them:
 **Only untouched for 3 months** narrows the list to projects you have not worked on
 in a while — the ones actually worth clearing.
 
-### 5. Installed Apps
+### 6. Installed Apps
 
 ![Installed Apps](docs/uz-apps.png)
 
@@ -197,7 +219,7 @@ items if you plan to reinstall and want to keep your settings.
 
 macOS system apps are shown with a lock and cannot be removed.
 
-### 6. Hidden Apps
+### 7. Hidden Apps
 
 ![Hidden Apps](docs/uz-hidden.png)
 
@@ -209,7 +231,7 @@ Apps with no Dock icon. Two kinds:
 Why it matters: these are the apps you never notice. On one machine this found **two
 copies of Docker** — 4.82.0 and 4.84.0, about 2.2 GB each. One was a leftover.
 
-### 7. Running in Background
+### 8. Running in Background
 
 ![Running in Background](docs/uz-processes.png)
 
@@ -225,7 +247,7 @@ Worth knowing: a dev server started from a terminal — `npm run web`, `node`,
 would be invisible in the usual lists. MacBroom adds every port-holding process
 explicitly.
 
-### 8. Startup Services
+### 9. Startup Services
 
 ![Startup Services](docs/uz-services.png)
 
