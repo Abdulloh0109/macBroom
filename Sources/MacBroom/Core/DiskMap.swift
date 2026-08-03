@@ -163,82 +163,82 @@ struct DiskMapTree {
     }
 }
 
-// MARK: - Squarified treemap
+// MARK: - Circle packing
 
-/// Lays out sizes as rectangles that stay close to square, so small items are
-/// still clickable instead of degenerating into slivers.
-/// Bruls, Huizing & van Wijk, "Squarified Treemaps" (2000).
-enum Treemap {
-    struct Tile {
-        let index: Int
-        let rect: CGRect
+/// Packs circles around a centre, biggest first, each as close in as it will fit.
+/// Area is proportional to size, so radius goes with the square root — a folder
+/// twice as big draws twice the area, not twice the width.
+enum CirclePack {
+    struct Bubble: Identifiable {
+        let id: Int
+        let center: CGPoint
+        let radius: Double
     }
 
-    static func layout(sizes: [Int64], in bounds: CGRect) -> [Tile] {
-        let total = sizes.reduce(0, +)
-        guard total > 0, !sizes.isEmpty, bounds.width > 0, bounds.height > 0 else { return [] }
+    static func layout(sizes: [Int64], in bounds: CGRect, padding: Double = 5) -> [Bubble] {
+        guard !sizes.isEmpty, bounds.width > 0, bounds.height > 0 else { return [] }
 
-        let scale = Double(bounds.width * bounds.height) / Double(total)
-        var remaining = sizes.enumerated().map { (index: $0.offset, area: Double($0.element) * scale) }
-        remaining.sort { $0.area > $1.area }
+        let radii = sizes.map { Double($0).squareRoot() }
+        guard let largest = radii.max(), largest > 0 else { return [] }
+        let normalized = radii.map { $0 / largest * 100 }
 
-        var tiles: [Tile] = []
-        var rect = bounds
-        var row: [(index: Int, area: Double)] = []
+        // Biggest first: the centre of the cluster is the thing worth looking at.
+        let order = normalized.indices.sorted { normalized[$0] > normalized[$1] }
+        var placed: [(index: Int, center: CGPoint, radius: Double)] = []
 
-        func shortestSide(_ r: CGRect) -> Double { Double(min(r.width, r.height)) }
+        for position in order {
+            let r = normalized[position]
+            guard r > 0.4 else { continue }  // sub-pixel once scaled — not worth a bubble
 
-        /// Worst aspect ratio in `row` if laid along the shorter side of `r`.
-        func worst(_ row: [(index: Int, area: Double)], _ side: Double) -> Double {
-            guard !row.isEmpty, side > 0 else { return .infinity }
-            let sum = row.reduce(0) { $0 + $1.area }
-            guard sum > 0 else { return .infinity }
-            let maxArea = row.map(\.area).max() ?? 0
-            let minArea = row.map(\.area).min() ?? 0
-            let side2 = side * side
-            let sum2 = sum * sum
-            return max(side2 * maxArea / sum2, sum2 / (side2 * minArea))
-        }
+            if placed.isEmpty {
+                placed.append((position, .zero, r))
+                continue
+            }
 
-        func flush(_ row: [(index: Int, area: Double)], into r: CGRect) -> CGRect {
-            let sum = row.reduce(0) { $0 + $1.area }
-            guard sum > 0 else { return r }
-            let horizontal = r.width >= r.height
-            var offset: Double = 0
-            let thickness = sum / Double(horizontal ? r.height : r.width)
-
-            for item in row {
-                let length = item.area / thickness
-                let tile: CGRect
-                if horizontal {
-                    tile = CGRect(x: r.minX, y: r.minY + offset, width: thickness, height: length)
-                } else {
-                    tile = CGRect(x: r.minX + offset, y: r.minY, width: length, height: thickness)
+            // Walk outwards along a spiral and take the first spot that clears
+            // everything already placed.
+            var found: CGPoint? = nil
+            let step = max(1.0, r * 0.28)
+            var angle = 0.0
+            while angle < 260 * .pi, found == nil {
+                let distance = step * angle / (2 * .pi)
+                let candidate = CGPoint(x: cos(angle) * distance, y: sin(angle) * distance)
+                let clears = placed.allSatisfy { other in
+                    let dx = candidate.x - other.center.x
+                    let dy = candidate.y - other.center.y
+                    return (dx * dx + dy * dy).squareRoot() >= r + other.radius + padding
                 }
-                tiles.append(Tile(index: item.index, rect: tile))
-                offset += length
+                if clears { found = candidate }
+                angle += 0.22
             }
-
-            return horizontal
-                ? CGRect(x: r.minX + thickness, y: r.minY, width: r.width - thickness, height: r.height)
-                : CGRect(x: r.minX, y: r.minY + thickness, width: r.width, height: r.height - thickness)
+            placed.append((position, found ?? .zero, r))
         }
 
-        var queue = remaining
-        while !queue.isEmpty {
-            let side = shortestSide(rect)
-            let item = queue[0]
+        guard !placed.isEmpty else { return [] }
 
-            if row.isEmpty || worst(row + [item], side) <= worst(row, side) {
-                row.append(item)
-                queue.removeFirst()
-            } else {
-                rect = flush(row, into: rect)
-                row = []
-            }
+        // Fit the cluster's real bounding box, not a circle around the origin — the
+        // spiral grows lopsidedly, and centring on the origin leaves dead space.
+        let minX = placed.map { $0.center.x - $0.radius }.min() ?? 0
+        let maxX = placed.map { $0.center.x + $0.radius }.max() ?? 0
+        let minY = placed.map { $0.center.y - $0.radius }.min() ?? 0
+        let maxY = placed.map { $0.center.y + $0.radius }.max() ?? 0
+
+        let width = max(maxX - minX, 0.001)
+        let height = max(maxY - minY, 0.001)
+        let scale = min(bounds.width / width, bounds.height / height) * 0.96
+
+        let clusterMid = CGPoint(x: (minX + maxX) / 2, y: (minY + maxY) / 2)
+        let viewMid = CGPoint(x: bounds.midX, y: bounds.midY)
+
+        return placed.map {
+            Bubble(
+                id: $0.index,
+                center: CGPoint(
+                    x: viewMid.x + ($0.center.x - clusterMid.x) * scale,
+                    y: viewMid.y + ($0.center.y - clusterMid.y) * scale
+                ),
+                radius: $0.radius * scale
+            )
         }
-        if !row.isEmpty { _ = flush(row, into: rect) }
-
-        return tiles
     }
 }

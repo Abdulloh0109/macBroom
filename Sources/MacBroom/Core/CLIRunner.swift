@@ -31,36 +31,43 @@ enum CLIRunner {
         let disk = DiskInfo.current()
         let total = sizes.reduce(0, +)
 
-        if asJSON {
-            var payload: [String: Any] = [
-                "diskTotal": disk.total,
-                "diskAvailable": disk.available,
-                "reclaimableBytes": total,
-            ]
-            payload["diskPurgeable"] = disk.purgeable
-            payload["categories"] = CategoryID.displayOrder.compactMap { id -> [String: Any]? in
-                guard let items = buckets[id] else { return nil }
-                return [
-                    "id": id.rawValue,
-                    "title": id.title,
-                    "risk": id.risk.rawValue,
-                    "bytes": items.reduce(0) { $0 + $1.1 },
-                    "items": items.sorted { $0.1 > $1.1 }.map { ["name": $0.0, "bytes": $0.1, "path": $0.2] },
-                ]
-            }
-            if let data = try? JSONSerialization.data(withJSONObject: payload, options: [.prettyPrinted, .sortedKeys]),
-                let text = String(data: data, encoding: .utf8)
-            {
-                print(text)
-            }
-            exit(0)
-        }
-
         // `--uz` / `--en` override the language the report is printed in.
         let language: Language =
             args.contains("--en") ? .en : (args.contains("--uz") ? .uz : Localized.current)
         Localized.current = language
         let uz = language == .uz
+
+        if asJSON {
+            var payload: [String: Any] = [
+                "diskTotal": disk.total,
+                "diskAvailable": disk.available,
+                "diskPurgeable": disk.purgeable,
+                "reclaimableBytes": total,
+            ]
+            payload["categories"] = CategoryID.displayOrder.compactMap { id -> [String: Any]? in
+                guard let items = buckets[id] else { return nil }
+                return [
+                    "id": id.rawValue,
+                    // Must be a String: a `T` here makes JSONSerialization throw, and the
+                    // `try?` below would swallow it into silent empty output.
+                    "title": id.title(language),
+                    "risk": id.risk.rawValue,
+                    "bytes": items.reduce(0) { $0 + $1.1 },
+                    "items": items.sorted { $0.1 > $1.1 }.map { ["name": $0.0, "bytes": $0.1, "path": $0.2] },
+                ]
+            }
+            do {
+                let data = try JSONSerialization.data(
+                    withJSONObject: payload,
+                    options: [.prettyPrinted, .sortedKeys]
+                )
+                print(String(decoding: data, as: UTF8.self))
+            } catch {
+                FileHandle.standardError.write(Data("json failed: \(error)\n".utf8))
+                exit(1)
+            }
+            exit(0)
+        }
 
         /// Pads by display width so the columns line up with non-ASCII titles.
         func pad(_ text: String, _ width: Int) -> String {
