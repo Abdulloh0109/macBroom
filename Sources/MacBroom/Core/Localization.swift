@@ -1770,4 +1770,98 @@ enum S {
             .fr: "\(count) peuvent encore être remis", .zh: "其中 \(count) 项仍可还原",
         ])
     }
+
+    // Growth watcher
+    static let growth = T([
+        .en: "What's Growing", .uz: "Nima o'syapti", .ru: "Что растёт",
+        .tr: "Ne Büyüyor", .de: "Was wächst", .es: "Qué está creciendo",
+        .fr: "Ce qui grossit", .zh: "正在增长",
+    ])
+    static let growthIntro = T([
+        .en: "Watch the disk live and see which folder is taking the space, as it happens.",
+        .uz: "Diskni jonli kuzatadi va qaysi papka joyni yeyayotganini shu zahoti ko'rsatadi.",
+        .ru: "Следит за диском в реальном времени и показывает, какая папка забирает место.",
+        .tr: "Diski canlı izler ve alanı hangi klasörün aldığını anında gösterir.",
+        .de: "Beobachtet den Speicher live und zeigt, welcher Ordner den Platz nimmt.",
+        .es: "Observa el disco en directo y muestra qué carpeta se está llevando el espacio.",
+        .fr: "Surveille le disque en direct et montre quel dossier prend la place.",
+        .zh: "实时监视磁盘，直接告诉你哪个文件夹在占用空间。",
+    ])
+    static let startWatching = T([
+        .en: "Start watching", .uz: "Kuzatishni boshlash", .ru: "Начать наблюдение",
+        .tr: "İzlemeye başla", .de: "Beobachtung starten", .es: "Empezar a observar",
+        .fr: "Commencer la surveillance", .zh: "开始监视",
+    ])
+    static let stopWatching = T([
+        .en: "Stop", .uz: "To'xtatish", .ru: "Остановить", .tr: "Durdur",
+        .de: "Stoppen", .es: "Detener", .fr: "Arrêter", .zh: "停止",
+    ])
+    static let growthHint = T([
+        .en: "Pick a folder and start watching, then do whatever fills your disk — a build, a "
+            + "container, a download. Changes appear within a second, grouped by folder.",
+        .uz: "Papkani tanlab kuzatishni boshlang, keyin diskni to'ldiradigan ishni bajaring — "
+            + "build, konteyner, yuklab olish. O'zgarishlar bir soniyada, papka bo'yicha chiqadi.",
+        .ru: "Выберите папку и начните наблюдение, затем сделайте то, что забивает диск — "
+            + "сборку, контейнер, загрузку. Изменения появятся за секунду, по папкам.",
+        .tr: "Bir klasör seçip izlemeye başlayın, sonra diski dolduran işi yapın — derleme, "
+            + "konteyner, indirme. Değişiklikler bir saniye içinde klasör bazında görünür.",
+        .de: "Ordner wählen, Beobachtung starten, dann tun was den Speicher füllt — ein Build, "
+            + "ein Container, ein Download. Änderungen erscheinen binnen einer Sekunde, nach Ordner.",
+        .es: "Elige una carpeta y empieza a observar; luego haz lo que llena el disco: una "
+            + "compilación, un contenedor, una descarga. Los cambios aparecen en un segundo.",
+        .fr: "Choisissez un dossier et lancez la surveillance, puis faites ce qui remplit le "
+            + "disque — un build, un conteneur, un téléchargement. Les changements arrivent en une seconde.",
+        .zh: "选择文件夹并开始监视，然后做那些占满磁盘的事 — 编译、容器、下载。变化会在一秒内按文件夹显示。",
+    ])
+    static let diskChange = T([
+        .en: "Disk free change", .uz: "Bo'sh joy o'zgarishi", .ru: "Изменение свободного места",
+        .tr: "Boş alan değişimi", .de: "Änderung des freien Speichers",
+        .es: "Cambio de espacio libre", .fr: "Variation de l'espace libre", .zh: "可用空间变化",
+    ])
+    static let watchingFor = T([
+        .en: "Watching", .uz: "Kuzatilmoqda", .ru: "Наблюдение", .tr: "İzleniyor",
+        .de: "Beobachtung läuft", .es: "Observando", .fr: "Surveillance", .zh: "监视中",
+    ])
+    static let noChangesYet = T([
+        .en: "Nothing has changed yet", .uz: "Hozircha hech narsa o'zgarmadi",
+        .ru: "Пока ничего не изменилось", .tr: "Henüz bir şey değişmedi",
+        .de: "Bisher hat sich nichts geändert", .es: "Aún no ha cambiado nada",
+        .fr: "Rien n'a encore changé", .zh: "目前还没有变化",
+    ])
+    static let growthNote = T([
+        .en: "A file first seen being modified counts as no growth: its earlier size is unknown, "
+            + "and guessing would overstate the number. New and deleted files count in full.",
+        .uz: "O'zgartirilayotgani birinchi marta ko'rilgan fayl o'sish deb hisoblanmaydi — uning "
+            + "avvalgi hajmi noma'lum, taxmin qilsa raqam oshib ketardi. Yangi va o'chirilgan fayllar to'liq hisoblanadi.",
+        .ru: "Файл, впервые замеченный при изменении, роста не даёт: его прежний размер неизвестен, "
+            + "а догадка завысила бы цифру. Новые и удалённые файлы учитываются полностью.",
+        .tr: "İlk kez değiştirilirken görülen dosya büyüme saymaz: eski boyutu bilinmiyor ve tahmin "
+            + "sayıyı şişirirdi. Yeni ve silinen dosyalar tam sayılır.",
+        .de: "Eine Datei, die erstmals beim Ändern gesehen wird, zählt nicht als Wachstum: ihre "
+            + "frühere Größe ist unbekannt, und Raten würde die Zahl überhöhen. Neue und gelöschte Dateien zählen voll.",
+        .es: "Un archivo visto por primera vez al modificarse no cuenta como crecimiento: su tamaño "
+            + "anterior es desconocido y adivinarlo inflaría la cifra. Los nuevos y borrados cuentan completos.",
+        .fr: "Un fichier vu pour la première fois lors d'une modification ne compte pas comme "
+            + "croissance : sa taille antérieure est inconnue. Les fichiers créés et supprimés comptent en entier.",
+        .zh: "首次在修改时被看到的文件不计入增长：它此前的大小未知，猜测会夸大数字。新建和删除的文件全额计入。",
+    ])
+
+    static func watchedStats(_ seconds: Int, _ files: Int) -> T {
+        let minutes = seconds / 60, secs = seconds % 60
+        let clock = minutes > 0 ? "\(minutes)m \(secs)s" : "\(secs)s"
+        return T([
+            .en: "\(clock) · \(files) files touched", .uz: "\(clock) · \(files) ta faylga tegildi",
+            .ru: "\(clock) · затронуто \(files) файлов", .tr: "\(clock) · \(files) dosyaya dokunuldu",
+            .de: "\(clock) · \(files) Dateien berührt", .es: "\(clock) · \(files) archivos tocados",
+            .fr: "\(clock) · \(files) fichiers touchés", .zh: "\(clock) · 涉及 \(files) 个文件",
+        ])
+    }
+
+    static func eventCount(_ count: Int) -> T {
+        T([
+            .en: "\(count) changes", .uz: "\(count) o'zgarish", .ru: "\(count) изменений",
+            .tr: "\(count) değişiklik", .de: "\(count) Änderungen", .es: "\(count) cambios",
+            .fr: "\(count) changements", .zh: "\(count) 次变化",
+        ])
+    }
 }

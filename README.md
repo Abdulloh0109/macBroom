@@ -34,6 +34,7 @@ Interfeys **o'zbek, ingliz, rus, turk, nemis, ispan, fransuz va xitoy** tillarid
 
 | Bo'lim                    | Nima qiladi                                                                                           |
 | ------------------------- | ----------------------------------------------------------------------------------------------------- |
+| **Nima o'syapti** | Diskni jonli kuzatadi: qaysi papka hozir joy yeyayotganini ko'rsatadi. Bunday tozalagich topilmadi |
 | **Tarix** | MacBroom o'chirgan hamma narsa asl yo'li bilan — va uni qaytarish tugmasi. Hech bir raqobatchida yo'q |
 | **Tizim holati** | Protsessor, xotira, batareya, Wi-Fi va ulangan qurilmalar — jonli, har 2 soniyada |
 | **Tizim ma'lumotlari** | Uy papkasidan tashqaridagi gigabaytlar va purgeable joyni tushuntiradi — boshqalar buni sir qoldiradi |

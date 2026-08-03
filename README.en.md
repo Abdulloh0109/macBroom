@@ -35,6 +35,7 @@ The interface speaks **Uzbek, English, Russian, Turkish, German, Spanish, French
 | Screen                    | What it does                                                                                           |
 | ------------------------- | ------------------------------------------------------------------------------------------------------ |
 | **System Data** | Explains the gigabytes outside your home folder and the purgeable gap — the part other cleaners leave a mystery |
+| **What's Growing** | Live FSEvents watch showing which folder is taking the space right now |
 | **History** | Everything MacBroom has removed, with its original path and a button to put it back |
 | **System** | Processor, memory, battery, Wi-Fi and attached devices — live, refreshed every 2 s |
 | **Smart Scan**            | Finds caches, logs, developer build junk, Trash and stale installers, and clears them in one pass      |

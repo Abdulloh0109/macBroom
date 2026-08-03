@@ -5,6 +5,7 @@ enum Feature: String, CaseIterable, Identifiable {
     case smartScan
     case diskMap
     case systemData
+    case growth
     case largeFiles
     case projects
     case apps
@@ -21,6 +22,7 @@ enum Feature: String, CaseIterable, Identifiable {
         case .smartScan: return S.smartScan
         case .diskMap: return S.diskMap
         case .systemData: return S.systemData
+        case .growth: return S.growth
         case .largeFiles: return S.largeFiles
         case .projects: return S.projects
         case .apps: return S.apps
@@ -37,6 +39,7 @@ enum Feature: String, CaseIterable, Identifiable {
         case .smartScan: return "sparkles"
         case .diskMap: return "square.grid.3x3.topleft.filled"
         case .systemData: return "questionmark.folder"
+        case .growth: return "waveform.path.ecg"
         case .largeFiles: return "externaldrive"
         case .projects: return "folder.badge.gearshape"
         case .apps: return "square.grid.2x2"
@@ -55,6 +58,7 @@ struct RootView: View {
     @StateObject private var largeFiles = LargeFilesModel()
     @StateObject private var diskMap = DiskMapModel()
     @StateObject private var systemData = SystemDataModel()
+    @StateObject private var growth = GrowthModel()
     @StateObject private var projects = ProjectsModel()
     @StateObject private var appsModel = AppsModel()
     @StateObject private var processes = ProcessesModel()
@@ -71,6 +75,7 @@ struct RootView: View {
             case .smartScan: SmartScanView(model: scan)
             case .diskMap: DiskMapView(model: diskMap)
             case .systemData: SystemDataView(model: systemData)
+            case .growth: GrowthView(model: growth)
             case .largeFiles: LargeFilesView(model: largeFiles)
             case .projects: ProjectsView(model: projects)
             case .apps: AppsView(model: appsModel, hidden: false)
@@ -100,6 +105,7 @@ struct RootView: View {
                 case .largeFiles: largeFiles.scan()
                 case .diskMap: diskMap.scan()
                 case .projects: projects.scan()
+                case .growth: growth.start()
                 default: break
                 }
             }
