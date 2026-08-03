@@ -7,7 +7,7 @@ CleanMyMac qiladigan ishlarning asosiy qismini qiladi, lekin **pullik emas**,
 reklama ko'rsatmaydi va **internetga umuman chiqmaydi** — dasturda tarmoq kodi yo'q.
 
 Swift + SwiftUI. Bironta ham tashqi kutubxona ishlatmaydi. Hajmi 3,8 MB.
-Interfeys **o'zbekcha va inglizcha**, bir tugma bilan almashadi.
+Interfeys **o'zbek, ingliz, rus, turk, nemis, ispan, fransuz va xitoy** tillarida — ro'yxatdan tanlaysiz, qayta ochish shart emas.
 
 🇬🇧 [English](README.en.md) · 📖 [Batafsil qo'llanma](document.md)
 
@@ -103,8 +103,9 @@ Yechimi:
 
 Bir marta shunday qilsangiz, keyin oddiy ochiladi.
 
-**Tilni almashtirish:** chap ustunning pastida **UZ / EN** tugmasi bor. Bosishingiz
-bilan butun interfeys o'zgaradi, dasturni qayta ochish shart emas.
+**Tilni almashtirish:** chap ustunning pastida til ro'yxati bor — 8 ta til.
+Tanlaganingiz bilan butun interfeys o'zgaradi, dasturni qayta ochish shart emas.
+Birinchi ochilishda tizim tili tanlanadi, mos til bo'lmasa o'zbekcha.
 
 **Ruxsatlar:** `~/Downloads`, `~/Desktop`, `~/Documents` papkalarini macOS himoyalaydi.
 Dastur ularni birinchi marta ko'rmoqchi bo'lganda ruxsat so'raydi. Ruxsat bermasangiz
@@ -328,7 +329,7 @@ Bu rejimda dastur **hech narsa o'chirmaydi**, faqat hisobot beradi:
 
 ```bash
 MacBroom --scan          # o'zbekcha hisobot
-MacBroom --scan --en     # inglizcha
+MacBroom --scan --lang ru # ru/tr/de/es/fr/zh/en/uz
 MacBroom --scan --json   # boshqa dastur uchun JSON
 MacBroom --map ~         # disk xaritasi, matn ko'rinishida
 MacBroom --selftest      # xavfsizlik tekshiruvi

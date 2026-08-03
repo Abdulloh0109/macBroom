@@ -40,8 +40,10 @@ Dastur "ad-hoc" imzo bilan yig'ilgan (Apple'ga pul to'lanmagan), shuning uchun m
 ochishda ogohlantirishi mumkin. Yechimi: ilovaga **o'ng tugma → Open**, keyin **Open** ni bosing.
 Bir marta shunday qilsangiz, keyin oddiy ochiladi.
 
-**Tilni almashtirish:** chap ustunning pastida **UZ / EN** tugmasi bor. Bosishingiz bilan butun
-interfeys o'zgaradi, dasturni qayta ochish shart emas.
+**Tilni almashtirish:** chap ustunning pastida til ro'yxati bor. Sakkizta til:
+o'zbek, ingliz, rus, turk, nemis, ispan, fransuz va xitoy. Tanlaganingiz bilan butun
+interfeys o'zgaradi, dasturni qayta ochish shart emas. Birinchi ochilishda dastur
+tizim tilini tanlaydi, mos til topilmasa o'zbekcha bo'ladi.
 
 **Chap pastdagi halqa** haqiqiy bo'sh joyni ko'rsatadi — `df` buyrug'i bilan bir xil raqam.
 Tagida esa alohida yozuv turadi: *"+84,88 GB ni macOS kerak bo'lganda bo'shatadi"*. Bu
@@ -385,7 +387,7 @@ Dastur oynasiz ham ishlaydi. Bu rejimda **hech narsa o'chirmaydi**, faqat hisobo
 
 ```bash
 MacBroom --scan          # o'zbekcha hisobot
-MacBroom --scan --en     # inglizcha
+MacBroom --scan --lang ru # ru/tr/de/es/fr/zh/en/uz
 MacBroom --scan --json   # dastur uchun JSON
 MacBroom --map ~         # disk xaritasi, matn ko'rinishida
 MacBroom --selftest      # xavfsizlik tekshiruvi

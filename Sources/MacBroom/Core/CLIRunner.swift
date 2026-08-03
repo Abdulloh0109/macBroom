@@ -31,11 +31,20 @@ enum CLIRunner {
         let disk = DiskInfo.current()
         let total = sizes.reduce(0, +)
 
-        // `--uz` / `--en` override the language the report is printed in.
-        let language: Language =
-            args.contains("--en") ? .en : (args.contains("--uz") ? .uz : Localized.current)
+        // `--lang <code>` (or the bare `--uz` / `--en` shorthands) overrides the
+        // language the report is printed in.
+        let language: Language = {
+            if let index = args.firstIndex(of: "--lang"), index + 1 < args.count,
+                let picked = Language(rawValue: args[index + 1].lowercased())
+            {
+                return picked
+            }
+            for candidate in Language.allCases where args.contains("--" + candidate.rawValue) {
+                return candidate
+            }
+            return Localized.current
+        }()
         Localized.current = language
-        let uz = language == .uz
 
         if asJSON {
             var payload: [String: Any] = [
@@ -69,25 +78,39 @@ enum CLIRunner {
             exit(0)
         }
 
-        /// Pads by display width so the columns line up with non-ASCII titles.
+        /// Terminal columns a string occupies. CJK ideographs are drawn two cells
+        /// wide, so counting characters misaligns every Chinese and Japanese row.
+        func displayWidth(_ text: String) -> Int {
+            text.unicodeScalars.reduce(0) { total, scalar in
+                let v = scalar.value
+                let wide =
+                    (0x1100...0x115F).contains(v) || (0x2E80...0xA4CF).contains(v)
+                    || (0xAC00...0xD7A3).contains(v) || (0xF900...0xFAFF).contains(v)
+                    || (0xFE30...0xFE6F).contains(v) || (0xFF00...0xFF60).contains(v)
+                    || (0xFFE0...0xFFE6).contains(v) || (0x20000...0x3FFFD).contains(v)
+                return total + (wide ? 2 : 1)
+            }
+        }
+
+        /// Pads to a column width, always leaving at least one space between columns.
         func pad(_ text: String, _ width: Int) -> String {
-            text.count >= width ? text : text + String(repeating: " ", count: width - text.count)
+            let gap = max(1, width - displayWidth(text))
+            return text + String(repeating: " ", count: gap)
         }
 
         let rule = "  " + String(repeating: "─", count: 66)
         print("")
-        print(uz ? "  MacBroom — hisobot (hech narsa o'chirilmadi)" : "  MacBroom — scan report (nothing was removed)")
+        print("  " + S.cliHeader(language))
         print(
-            uz
-                ? "  Disk: \(Format.bytes(disk.total)) dan \(Format.bytes(disk.used)) band, \(Format.bytes(disk.available)) bo'sh"
-                : "  Disk: \(Format.bytes(disk.used)) used of \(Format.bytes(disk.total)), \(Format.bytes(disk.available)) free"
+            "  "
+                + S.cliDisk(
+                    Format.bytes(disk.total),
+                    Format.bytes(disk.used),
+                    Format.bytes(disk.available)
+                )(language)
         )
         if disk.purgeable > 1_000_000_000 {
-            print(
-                uz
-                    ? "  Yana \(Format.bytes(disk.purgeable)) ni macOS kerak bo'lganda o'zi bo'shatadi"
-                    : "  A further \(Format.bytes(disk.purgeable)) is purgeable by macOS on demand"
-            )
+            print("  " + S.cliPurgeable(Format.bytes(disk.purgeable))(language))
         }
         print(rule)
 
@@ -107,7 +130,7 @@ enum CLIRunner {
         }
 
         print(rule)
-        print((uz ? "  Bo'shatish mumkin: " : "  Reclaimable: ") + Format.bytes(total))
+        print("  " + S.cliReclaimable(Format.bytes(total))(language))
         print("")
         exit(0)
     }
