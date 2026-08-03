@@ -112,6 +112,7 @@ final class AppsModel: ObservableObject {
 
         let result = Cleaner.trash(targets)
         failures = result.failures
+        Task { await RemovalHistory.shared.add(source: .apps, records: result.records) }
         if !FileManager.default.fileExists(atPath: app.url.path) {
             apps.removeAll { $0.id == app.id }
             selected = nil

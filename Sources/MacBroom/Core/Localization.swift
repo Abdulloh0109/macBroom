@@ -1645,4 +1645,129 @@ enum S {
         .fr: "Copies horaires que Time Machine garde sur le disque de démarrage. Elles retiennent l'espace des fichiers supprimés.",
         .zh: "Time Machine 在启动磁盘上保留的每小时副本。它们占住了已删除文件曾用的空间。",
     ])
+
+    // Removal history
+    static let history = T([
+        .en: "History", .uz: "Tarix", .ru: "История", .tr: "Geçmiş",
+        .de: "Verlauf", .es: "Historial", .fr: "Historique", .zh: "历史记录",
+    ])
+    static let historyIntro = T([
+        .en: "Everything MacBroom has removed, and a button to put it back.",
+        .uz: "MacBroom o'chirgan hamma narsa — va uni qaytarish tugmasi.",
+        .ru: "Всё, что удалил MacBroom — и кнопка, чтобы вернуть обратно.",
+        .tr: "MacBroom'un sildiği her şey — ve geri getirme düğmesi.",
+        .de: "Alles, was MacBroom entfernt hat — mit einer Taste zum Zurücklegen.",
+        .es: "Todo lo que MacBroom ha eliminado, con un botón para devolverlo.",
+        .fr: "Tout ce que MacBroom a supprimé — et un bouton pour le remettre.",
+        .zh: "MacBroom 清理过的所有内容，以及一键还原的按钮。",
+    ])
+    static let historyEmpty = T([
+        .en: "Nothing removed yet", .uz: "Hali hech narsa o'chirilmadi",
+        .ru: "Пока ничего не удалено", .tr: "Henüz bir şey silinmedi",
+        .de: "Noch nichts entfernt", .es: "Aún no se ha eliminado nada",
+        .fr: "Rien n'a encore été supprimé", .zh: "尚未清理任何内容",
+    ])
+    static let historyEmptyBody = T([
+        .en: "Once you clean something it is listed here with its original location, so you can always check what went and undo it.",
+        .uz: "Biror narsani tozalaganingizdan keyin u shu yerda asl joyi bilan chiqadi — nima ketganini tekshirib, qaytarib olishingiz mumkin.",
+        .ru: "Как только вы что-то очистите, это появится здесь с исходным путём — всегда можно проверить и вернуть.",
+        .tr: "Bir şeyi temizlediğinizde burada özgün konumuyla listelenir — neyin gittiğini görüp geri alabilirsiniz.",
+        .de: "Sobald Sie etwas bereinigen, erscheint es hier mit dem ursprünglichen Ort — nachsehen und zurückholen jederzeit möglich.",
+        .es: "Cuando limpies algo aparecerá aquí con su ubicación original, para que puedas comprobar qué se fue y deshacerlo.",
+        .fr: "Dès que vous nettoyez quelque chose, cela apparaît ici avec son emplacement d'origine — vérifiable et annulable.",
+        .zh: "清理之后，条目会连同原始位置列在这里，随时可以查看并还原。",
+    ])
+    static let restore = T([
+        .en: "Put back", .uz: "Qaytarish", .ru: "Вернуть", .tr: "Geri getir",
+        .de: "Zurücklegen", .es: "Devolver", .fr: "Remettre", .zh: "还原",
+    ])
+    static let restoreAll = T([
+        .en: "Put all back", .uz: "Hammasini qaytarish", .ru: "Вернуть всё",
+        .tr: "Hepsini geri getir", .de: "Alles zurücklegen", .es: "Devolver todo",
+        .fr: "Tout remettre", .zh: "全部还原",
+    ])
+    static let goneForever = T([
+        .en: "Trash emptied — cannot be restored", .uz: "Savat tozalangan — qaytarib bo'lmaydi",
+        .ru: "Корзина очищена — вернуть нельзя", .tr: "Çöp Kutusu boşaltılmış — geri getirilemez",
+        .de: "Papierkorb geleert — nicht wiederherstellbar",
+        .es: "Papelera vaciada: no se puede restaurar",
+        .fr: "Corbeille vidée — restauration impossible", .zh: "废纸篓已清空 — 无法还原",
+    ])
+    static let forgetSession = T([
+        .en: "Remove from history", .uz: "Tarixdan o'chirish", .ru: "Убрать из истории",
+        .tr: "Geçmişten kaldır", .de: "Aus Verlauf entfernen", .es: "Quitar del historial",
+        .fr: "Retirer de l'historique", .zh: "从历史中移除",
+    ])
+    static let clearHistory = T([
+        .en: "Clear history", .uz: "Tarixni tozalash", .ru: "Очистить историю",
+        .tr: "Geçmişi temizle", .de: "Verlauf löschen", .es: "Borrar historial",
+        .fr: "Effacer l'historique", .zh: "清空历史",
+    ])
+    static let restoreGone = T([
+        .en: "It is no longer in the Trash.", .uz: "U endi Savatda yo'q.",
+        .ru: "Этого больше нет в Корзине.", .tr: "Artık Çöp Kutusu'nda değil.",
+        .de: "Es liegt nicht mehr im Papierkorb.", .es: "Ya no está en la Papelera.",
+        .fr: "Ce n'est plus dans la Corbeille.", .zh: "它已不在废纸篓中。",
+    ])
+    static let restoreOccupied = T([
+        .en: "Something else already sits at that path.",
+        .uz: "O'sha yo'lda allaqachon boshqa narsa turibdi.",
+        .ru: "По этому пути уже что-то есть.",
+        .tr: "O konumda zaten başka bir şey var.",
+        .de: "An diesem Pfad liegt bereits etwas anderes.",
+        .es: "Ya hay otra cosa en esa ruta.",
+        .fr: "Quelque chose occupe déjà ce chemin.",
+        .zh: "该路径下已存在其他内容。",
+    ])
+    static let restoreRefused = T([
+        .en: "SafetyGuard refused that destination.", .uz: "SafetyGuard bu joyni rad etdi.",
+        .ru: "SafetyGuard отклонил это место.", .tr: "SafetyGuard bu konumu reddetti.",
+        .de: "SafetyGuard hat dieses Ziel abgelehnt.", .es: "SafetyGuard rechazó ese destino.",
+        .fr: "SafetyGuard a refusé cette destination.", .zh: "SafetyGuard 拒绝了该位置。",
+    ])
+    static let restoreNeedsPermission = T([
+        .en: "macOS would not let MacBroom move it out of the Trash. Open the Trash in Finder and use Put Back, or give MacBroom Full Disk Access.",
+        .uz: "macOS MacBroom'ga Savatdan chiqarishga ruxsat bermadi. Savatni Finder'da ochib \"Put Back\" qiling, yoki MacBroom'ga Full Disk Access bering.",
+        .ru: "macOS не позволил MacBroom вынести это из Корзины. Откройте Корзину в Finder и нажмите «Положить обратно», либо дайте MacBroom полный доступ к диску.",
+        .tr: "macOS, MacBroom'un bunu Çöp Kutusu'ndan çıkarmasına izin vermedi. Çöp Kutusu'nu Finder'da açıp \"Geri Koy\" deyin ya da MacBroom'a Tam Disk Erişimi verin.",
+        .de: "macOS ließ MacBroom das nicht aus dem Papierkorb holen. Öffnen Sie den Papierkorb im Finder und nutzen Sie „Zurücklegen\", oder geben Sie MacBroom vollen Festplattenzugriff.",
+        .es: "macOS no permitió que MacBroom lo sacara de la Papelera. Ábrela en el Finder y usa «Devolver», o concede a MacBroom Acceso total al disco.",
+        .fr: "macOS n'a pas laissé MacBroom le sortir de la Corbeille. Ouvrez la Corbeille dans le Finder et utilisez « Remettre », ou accordez à MacBroom l'accès complet au disque.",
+        .zh: "macOS 不允许 MacBroom 将其移出废纸篓。请在访达中打开废纸篓并使用\"放回原处\"，或授予 MacBroom 完全磁盘访问权限。",
+    ])
+    static let openSettings = T([
+        .en: "Open Full Disk Access", .uz: "Full Disk Access'ni ochish",
+        .ru: "Открыть полный доступ к диску", .tr: "Tam Disk Erişimi'ni aç",
+        .de: "Vollen Festplattenzugriff öffnen", .es: "Abrir Acceso total al disco",
+        .fr: "Ouvrir l'accès complet au disque", .zh: "打开完全磁盘访问权限",
+    ])
+    static let revealInTrash = T([
+        .en: "Show in Trash", .uz: "Savatda ko'rsatish", .ru: "Показать в Корзине",
+        .tr: "Çöp Kutusu'nda göster", .de: "Im Papierkorb zeigen", .es: "Mostrar en la Papelera",
+        .fr: "Afficher dans la Corbeille", .zh: "在废纸篓中显示",
+    ])
+    static let restoreFailed = T([
+        .en: "Could not move it back.", .uz: "Qaytarib ko'chirib bo'lmadi.",
+        .ru: "Не удалось вернуть на место.", .tr: "Geri taşınamadı.",
+        .de: "Zurückverschieben fehlgeschlagen.", .es: "No se pudo mover de vuelta.",
+        .fr: "Impossible de le remettre.", .zh: "无法移回原位。",
+    ])
+
+    static func sessionSummary(_ count: Int, _ size: String) -> T {
+        T([
+            .en: "\(count) items · \(size) freed", .uz: "\(count) ta element · \(size) bo'shatildi",
+            .ru: "\(count) объектов · освобождено \(size)", .tr: "\(count) öğe · \(size) boşaltıldı",
+            .de: "\(count) Objekte · \(size) freigegeben", .es: "\(count) elementos · \(size) liberados",
+            .fr: "\(count) éléments · \(size) libérés", .zh: "\(count) 项 · 已释放 \(size)",
+        ])
+    }
+
+    static func restorableCount(_ count: Int) -> T {
+        T([
+            .en: "\(count) can still be put back", .uz: "\(count) tasini qaytarish mumkin",
+            .ru: "\(count) можно вернуть", .tr: "\(count) tanesi geri getirilebilir",
+            .de: "\(count) noch zurücklegbar", .es: "\(count) se pueden devolver",
+            .fr: "\(count) peuvent encore être remis", .zh: "其中 \(count) 项仍可还原",
+        ])
+    }
 }
